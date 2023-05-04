@@ -1,9 +1,11 @@
 package com.nikitagorbatko.humblr.ui
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.nikitagorbatko.humblr.R
@@ -35,7 +37,9 @@ class SplashFragment : Fragment() {
 
         CoroutineScope(Dispatchers.Main).launch {
             delay(1500)
+            val a = repository.getToken()
 
+            Log.d("Tag abs", a?: "")
             when {
                 repository.getIsFirstStart() -> {
                     findNavController().navigate(R.id.action_splashFragment_to_viewPagerFragment)

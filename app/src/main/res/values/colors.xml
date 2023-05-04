@@ -10,5 +10,7 @@
     <color name="background_color">#045222D0</color>
     <color name="main">#FF5222D0</color>
 
+    <color name="light_gray">#80dadada</color>
+    <color name="dark_gray">#80a39f9f</color>
 
 </resources>

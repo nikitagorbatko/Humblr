@@ -16,4 +16,9 @@
     <string name="button_login">Войти</string>
 
     <string name="login_text">Найди единомышленников с Humblr</string>
+
+    <string name="new_tab">Новое</string>
+    <string name="popular_tab">Популярное</string>
+    <string name="search_hint">Поиск</string>
+
 </resources>
