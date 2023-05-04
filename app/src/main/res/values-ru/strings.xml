@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Humblr</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+
+    <string name="first_title">Добро пожаловать в Humblr</string>
+    <string name="third_title">Делись и сохраняй</string>
+    <string name="first_text">Здесь собраны сообщества по всевозможным интересам</string>
+    <string name="second_text">Ты можешь найти новые сабы по интересам и посмотреть сабы, на которые подписан</string>
+    <string name="third_text">Вкладка избранное хранит закладки с комментариями и сабами. В профиле ты найдёшь информацию о себе.</string>
+    <string name="skip">Пропустить</string>
+    <string name="ready">Готово</string>
+
+    <string name="button_login">Войти</string>
+
+    <string name="login_text">Найди единомышленников с Humblr</string>
+</resources>
