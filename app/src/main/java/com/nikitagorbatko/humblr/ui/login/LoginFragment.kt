@@ -59,11 +59,11 @@ class LoginFragment : Fragment() {
                 tokenRequest = tokenExchangeRequest
             )
         }.onSuccess {
-            repository.setToken(it)
+            repository.setToken("bearer $it")
             withContext(Dispatchers.Main) {
                 findNavController().navigate(R.id.action_loginFragment_to_navigation_home)
             }
-            Log.d("TAG auth123", it)
+            Log.d("TAG auth123", "bearer $it")
         }.onFailure {
             val errorMessage = it.message
             Log.d("TAG auth123", errorMessage ?: "error")

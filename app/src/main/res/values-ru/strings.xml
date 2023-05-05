@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Humblr</string>
-    <string name="title_home">Home</string>
-    <string name="title_dashboard">Dashboard</string>
-    <string name="title_notifications">Notifications</string>
+    <string name="title_subreddits">Сабредиты</string>
+    <string name="title_favourites">Избранное</string>
+    <string name="title_user">Пользователь</string>
 
     <string name="first_title">Добро пожаловать в Humblr</string>
     <string name="third_title">Делись и сохраняй</string>

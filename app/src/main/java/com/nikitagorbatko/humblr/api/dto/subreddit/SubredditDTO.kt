@@ -10,5 +10,6 @@ data class SubredditDTO(
     @Json(name = "name") val name: String,
     @Json(name = "description") val description: String?,
     @Json(name = "user_is_subscriber") var subscribed: Boolean,
-    @Json(name = "subscribers")  val subscribers: Long
+    @Json(name = "subscribers") val subscribers: Long,
+    @Json(name = "display_name") val displayName: String,
 )

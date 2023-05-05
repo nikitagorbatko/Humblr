@@ -47,18 +47,18 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == 1000 && data != null) {
-            val exception = AuthorizationException.fromIntent(intent)
-            val tokenExchangeRequest = AppAuth.prepareTokenRequest(intent)
-            if (exception != null) {
-                Log.d("TAG auth123", exception.message ?: "authResponse handle exception")
-            } else {
-                CoroutineScope(Dispatchers.IO).launch {
-                    //onCodeReceived(tokenExchangeRequest)
-                }
-            }
-        }
-    }
+//    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+//        super.onActivityResult(requestCode, resultCode, data)
+//        if (requestCode == 1000 && data != null) {
+//            val exception = AuthorizationException.fromIntent(intent)
+//            val tokenExchangeRequest = AppAuth.prepareTokenRequest(intent)
+//            if (exception != null) {
+//                Log.d("TAG auth123", exception.message ?: "authResponse handle exception")
+//            } else {
+//                CoroutineScope(Dispatchers.IO).launch {
+//                    onCodeReceived(tokenExchangeRequest)
+//                }
+//            }
+//        }
+//    }
 }

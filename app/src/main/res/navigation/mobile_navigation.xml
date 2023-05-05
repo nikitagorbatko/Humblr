@@ -20,21 +20,25 @@
 
 
     <fragment
-        android:id="@+id/navigation_home"
-        android:name="com.nikitagorbatko.humblr.ui.home.SubredditsFragment"
-        android:label="@string/title_home"
-        tools:layout="@layout/fragment_subreddits" />
+        android:id="@+id/navigation_subreddits"
+        android:name="com.nikitagorbatko.humblr.ui.subreddits.SubredditsFragment"
+        android:label="@string/title_subreddits"
+        tools:layout="@layout/fragment_subreddits" >
+        <action
+            android:id="@+id/action_navigation_subreddits_to_subredditPostsFragment"
+            app:destination="@id/subredditPostsFragment" />
+    </fragment>
 
     <fragment
-        android:id="@+id/navigation_dashboard"
+        android:id="@+id/navigation_favourites"
         android:name="com.nikitagorbatko.humblr.ui.dashboard.DashboardFragment"
-        android:label="@string/title_dashboard"
+        android:label="@string/title_favourites"
         tools:layout="@layout/fragment_dashboard" />
 
     <fragment
-        android:id="@+id/navigation_notifications"
+        android:id="@+id/navigation_user"
         android:name="com.nikitagorbatko.humblr.ui.notifications.NotificationsFragment"
-        android:label="@string/title_notifications"
+        android:label="@string/title_user"
         tools:layout="@layout/fragment_notifications" />
     <fragment
         android:id="@+id/loginFragment"
@@ -42,7 +46,7 @@
         android:label="LoginFragment">
         <action
             android:id="@+id/action_loginFragment_to_navigation_home"
-            app:destination="@id/navigation_home"
+            app:destination="@id/navigation_subreddits"
             app:enterAnim="@anim/nav_default_enter_anim"
             app:popUpTo="@id/loginFragment"
             app:popUpToInclusive="true" />
@@ -66,8 +70,17 @@
             app:popUpToInclusive="true" />
         <action
             android:id="@+id/action_splashFragment_to_navigation_home"
-            app:destination="@id/navigation_home"
+            app:destination="@id/navigation_subreddits"
             app:popUpTo="@id/splashFragment"
             app:popUpToInclusive="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/subredditPostsFragment"
+        android:name="com.nikitagorbatko.humblr.ui.subreddit_posts.PostsFragment"
+        android:label="fragment_subredit_posts"
+        tools:layout="@layout/fragment_posts" >
+        <argument
+            android:name="displayName"
+            app:argType="string" />
     </fragment>
 </navigation>

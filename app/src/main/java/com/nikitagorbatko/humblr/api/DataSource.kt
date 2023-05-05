@@ -15,11 +15,11 @@ import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.http.*
 
-interface RedditService{
+interface RedditService {
     @GET("{sr}?limit=${DataSource.ITEMS_ON_PAGE}")
     suspend fun getPostsFromSubreddit(
-        @Path("sr") subredditName:String,
-        @Query("after") after:String? = null,
+        @Path("sr") subredditName: String,
+        @Query("after") after: String? = null,
         @Query("before") before: String? = null,
         @Header("Authorization") accessToken: String
     ): PostResponseDTO
@@ -27,14 +27,14 @@ interface RedditService{
     @GET("subreddits/{set}?limit=${DataSource.ITEMS_ON_PAGE}")
     suspend fun getSubreddits(
         @Path("set") subredditSet: DataSource.SUBREDDITS_SET,
-        @Query("after") after:String? = null,
+        @Query("after") after: String? = null,
         @Query("before") before: String? = null,
         @Header("Authorization") accessToken: String
     ): SubResponseDTO
 
     @GET("subreddits/new")
     suspend fun getNewSubreddits(
-        @Query("after") after:String? = null,
+        @Query("after") after: String? = null,
         @Query("before") before: String? = null,
         @Query("count") count: Int = 0,
         @Header("Authorization") accessToken: String
@@ -42,15 +42,23 @@ interface RedditService{
 
     @GET("subreddits/popular")
     suspend fun getPopularSubreddits(
-        @Query("after") after:String? = null,
+        @Query("after") after: String? = null,
         @Query("before") before: String? = null,
-        @Query("count") count: Int = 0,
         @Header("Authorization") accessToken: String
     ): SubResponseDTO
 
+    @GET("/subreddits/search")
+    suspend fun getQuerySubreddits(
+        @Query("after") after: String? = null,
+        @Query("before") before: String? = null,
+        @Query("q") query: String,
+        @Header("Authorization") accessToken: String
+    ): SubResponseDTO
+
+
     @GET("subreddits/mine/subscriber")
     suspend fun getFavoriteSubreddits(
-        @Query("after") after:String? = null,
+        @Query("after") after: String? = null,
         @Query("before") before: String? = null,
         @Header("Authorization") accessToken: String
     ): SubResponseDTO
@@ -58,15 +66,15 @@ interface RedditService{
     @GET("user/{username}/saved?limit=${DataSource.ITEMS_ON_PAGE}&depth=1")
     suspend fun getSavedPosts(
         @Path("username") username: String,
-        @Query("after") after:String? = null,
+        @Query("after") after: String? = null,
         @Query("before") before: String? = null,
         @Header("Authorization") accessToken: String
     ): PostResponseDTO
 
     @GET("subreddits/search?limit=${DataSource.ITEMS_ON_PAGE}")
     suspend fun getSubredditsByQuery(
-        @Query("q") query :String,
-        @Query("after") after:String? = null,
+        @Query("q") query: String,
+        @Query("after") after: String? = null,
         @Query("before") before: String? = null,
         @Header("Authorization") accessToken: String
     ): SubResponseDTO
@@ -74,10 +82,25 @@ interface RedditService{
     @GET("comments/{id}?limit=${DataSource.ITEMS_ON_PAGE}&depth=1")
     suspend fun getCommentsOfPost(
         @Path("id") postID: String,
-        @Query("after") after:String? = null,
+        @Query("after") after: String? = null,
         @Query("before") before: String? = null,
         @Header("Authorization") accessToken: String
-    ):List<PostResponseDTO>
+    ): List<PostResponseDTO>
+
+    @GET("r/{displayName}")
+    suspend fun getSubredditPosts(
+        @Path("displayName") displayName: String,
+        @Header("Authorization") accessToken: String,
+        @Query("after") after: String? = null,
+        @Query("before") before: String? = null,
+    ): PostResponseDTO
+
+    @GET("comments/{post}")
+    suspend fun getPostComments(
+        @Path("post") post: String,
+        @Query("limit") limit: Int,
+        @Header("Authorization") authHeader: String
+    ): String
 
     @GET("user/{name}/about")
     suspend fun getUserInfo(
@@ -86,15 +109,15 @@ interface RedditService{
     ): ChildUserDTO
 
     @POST("api/subscribe?action=sub")
-    suspend fun joinToSub(
-        @Query("sr") fullTNameSub: String,
-        @Header("Authorization") accessToken: String
+    suspend fun subscribeToSub(
+        @Query("sr") subName: String,
+        @Header("Authorization") token: String
     )
 
     @POST("api/subscribe?action=unsub")
-    suspend fun leaveSub(
-        @Query("sr") fullTNameSub: String,
-        @Header("Authorization") accessToken: String
+    suspend fun unsubscribeFromSub(
+        @Query("sr") subName: String,
+        @Header("Authorization") token: String
     )
 
     @PUT("api/v1/me/friends/{uname}")
@@ -119,13 +142,13 @@ interface RedditService{
 
     @POST("api/save")
     suspend fun savePost(
-        @Query("id") postID:String,
+        @Query("id") postID: String,
         @Header("Authorization") accessToken: String
     )
 
     @POST("api/unsave")
     suspend fun unsavePost(
-        @Query("id") postID:String,
+        @Query("id") postID: String,
         @Header("Authorization") accessToken: String
     )
 
@@ -136,10 +159,11 @@ interface RedditService{
 }
 
 class DataSource {
-    companion object{
+    companion object {
         private const val BASE_URL = "https://oauth.reddit.com/"
         const val ITEMS_ON_PAGE = 10
     }
+
     enum class SUBREDDITS_SET {
         new,
         popular,

@@ -6,5 +6,9 @@ import com.nikitagorbatko.humblr.api.dto.subreddit.SubredditDTO
 import kotlinx.coroutines.flow.Flow
 
 interface SubredditsRepository {
-    fun getPopularSubreddits(token: String): Flow<PagingData<ChildSubredditDTO>>
+    fun getPopularSubreddits(): Flow<PagingData<ChildSubredditDTO>>
+
+    fun getNewSubreddits(): Flow<PagingData<ChildSubredditDTO>>
+
+    fun getQuerySubreddits(query: String): Flow<PagingData<ChildSubredditDTO>>
 }
