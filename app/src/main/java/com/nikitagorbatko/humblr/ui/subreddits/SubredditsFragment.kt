@@ -55,7 +55,10 @@ class SubredditsFragment : Fragment() {
         adapter = SubredditsAdapter(
             context = requireContext(),
             onItemClick = {
-                val action = SubredditsFragmentDirections.actionNavigationSubredditsToSubredditPostsFragment(it)
+                val action =
+                    SubredditsFragmentDirections.actionNavigationSubredditsToSubredditPostsFragment(
+                        it
+                    )
                 findNavController().navigate(action)
             },
             onAddClick = { subscribed, name ->
@@ -81,11 +84,12 @@ class SubredditsFragment : Fragment() {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 adapter.loadStateFlow.collect {
                     //binding.swipeRefreshLayout.isRefreshing = it.source.refresh is LoadState.Loading
-                    binding.progressBar.visibility = if (it.source.refresh is LoadState.Loading) {
-                        View.VISIBLE
-                    } else {
-                        View.GONE
-                    }
+                    binding.progressBarSubreddits.visibility =
+                        if (it.source.refresh is LoadState.Loading) {
+                            View.VISIBLE
+                        } else {
+                            View.GONE
+                        }
                 }
             }
         }

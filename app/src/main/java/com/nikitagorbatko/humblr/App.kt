@@ -2,14 +2,18 @@ package com.nikitagorbatko.humblr
 
 import android.app.Application
 import com.nikitagorbatko.humblr.api.DataSource
+import com.nikitagorbatko.humblr.data.comments.CommentsRepository
+import com.nikitagorbatko.humblr.data.comments.CommentsRepositoryImpl
 import com.nikitagorbatko.humblr.data.posts.PostsRepository
 import com.nikitagorbatko.humblr.data.posts.PostsRepositoryImpl
 import com.nikitagorbatko.humblr.data.preferences.SharedPreferencesRepository
 import com.nikitagorbatko.humblr.data.preferences.SharedPreferencesRepositoryImpl
 import com.nikitagorbatko.humblr.data.subreddits.SubredditsRepository
 import com.nikitagorbatko.humblr.data.subreddits.SubredditsRepositoryImpl
+import com.nikitagorbatko.humblr.domain.GetAllCommentsUseCase
 import com.nikitagorbatko.humblr.domain.SubscribeUseCase
 import com.nikitagorbatko.humblr.domain.UnsubscribeUseCase
+import com.nikitagorbatko.humblr.ui.post.SinglePostViewModel
 import com.nikitagorbatko.humblr.ui.subreddit_posts.PostsViewModel
 import com.nikitagorbatko.humblr.ui.subreddits.SubredditsViewModel
 import org.koin.android.ext.koin.androidContext
@@ -28,11 +32,13 @@ class App : Application() {
     private val uiModule = module {
         viewModel { SubredditsViewModel(get(), get(), get()) }
         viewModel { PostsViewModel(get()) }
+        viewModel { SinglePostViewModel(get()) }
     }
 
     private val domainModule = module {
         factory { SubscribeUseCase(DataSource().redditService, get()) }
         factory { UnsubscribeUseCase(DataSource().redditService, get()) }
+        factory { GetAllCommentsUseCase(DataSource().redditService, get()) }
     }
 
     private val dataModule = module {
@@ -42,6 +48,7 @@ class App : Application() {
         single<PostsRepository> {
             PostsRepositoryImpl(get(), DataSource().redditService)
         }
+        single<CommentsRepository> { CommentsRepositoryImpl(get(), get()) }
     }
 
     override fun onCreate() {

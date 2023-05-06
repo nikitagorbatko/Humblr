@@ -82,5 +82,17 @@
         <argument
             android:name="displayName"
             app:argType="string" />
+        <action
+            android:id="@+id/action_subredditPostsFragment_to_singlePostFragment"
+            app:destination="@id/singlePostFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/singlePostFragment"
+        android:name="com.nikitagorbatko.humblr.ui.post.SinglePostFragment"
+        android:label="fragment_single_post"
+        tools:layout="@layout/fragment_single_post" >
+        <argument
+            android:name="id"
+            app:argType="string" />
     </fragment>
 </navigation>

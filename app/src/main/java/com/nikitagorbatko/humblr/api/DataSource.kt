@@ -1,15 +1,16 @@
 package com.nikitagorbatko.humblr.api
 
+
+import com.nikitagorbatko.humblr.api.dto.CommentsResponse
+import com.nikitagorbatko.humblr.api.dto.SkipEmptyRepliesAdapter
 import com.nikitagorbatko.humblr.api.dto.friends.FriendResponseDTO
 import com.nikitagorbatko.humblr.api.dto.post.PostResponseDTO
 import com.nikitagorbatko.humblr.api.dto.subreddit.SubResponseDTO
 import com.nikitagorbatko.humblr.api.dto.user.ChildUserDTO
 import com.nikitagorbatko.humblr.api.dto.user.UserDTO
+import com.squareup.moshi.Moshi
 import okhttp3.RequestBody
-
-
 import okhttp3.ResponseBody
-import org.json.JSONObject
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
@@ -95,12 +96,13 @@ interface RedditService {
         @Query("before") before: String? = null,
     ): PostResponseDTO
 
-    @GET("comments/{post}")
+    @GET("comments/{id}")
     suspend fun getPostComments(
-        @Path("post") post: String,
-        @Query("limit") limit: Int,
-        @Header("Authorization") authHeader: String
-    ): String
+        @Path("id") id: String,
+        @Query("after") after: String? = null,
+        @Query("before") before: String? = null,
+        @Header("Authorization") accessToken: String
+    ): List<CommentsResponse>
 
     @GET("user/{name}/about")
     suspend fun getUserInfo(
@@ -170,10 +172,14 @@ class DataSource {
         favorite
     }
 
+    private val moshi = Moshi.Builder()
+        .add(SkipEmptyRepliesAdapter()) //the ordering matters
+        .build()
+
     private val retrofit =
         Retrofit.Builder()
             .baseUrl(BASE_URL)
-            .addConverterFactory(MoshiConverterFactory.create())
+            .addConverterFactory(MoshiConverterFactory.create(moshi))
             .build()
     val redditService = retrofit.create(RedditService::class.java)
 //

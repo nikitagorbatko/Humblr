@@ -13,7 +13,7 @@ import com.nikitagorbatko.humblr.databinding.PostItemBinding
 import com.nikitagorbatko.humblr.databinding.SubredditItemBinding
 
 class PostsAdapter(
-    private val onItemClick: (displayName: String) -> Unit
+    private val onItemClick: (id: String) -> Unit
 ) :
     PagingDataAdapter<ChildPostDTO, PostsAdapter.ViewHolder>(DiffUtilCallback()) {
 
@@ -29,7 +29,12 @@ class PostsAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val post = getItem(position)
 
+        //post.data.
+
         with(holder.binding) {
+            root.setOnClickListener {
+                post?.data?.id?.let { it1 -> onItemClick(it1) }
+            }
             textViewTitle.text = post?.data?.title
             textViewName.text = post?.data?.author
             textViewComments.text = post?.data?.num_comments.toString()

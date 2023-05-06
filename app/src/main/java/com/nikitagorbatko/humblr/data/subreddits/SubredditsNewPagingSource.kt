@@ -14,7 +14,7 @@ class SubredditsNewPagingSource(
         val after = params.key ?: EMPTY_AFTER
 
         return kotlin.runCatching {
-            service.getPopularSubreddits(accessToken = token, after = after).data
+            service.getNewSubreddits(accessToken = token, after = after).data
         }.fold(onSuccess = {
             LoadResult.Page(it.children, it.before, it.after)
         }, onFailure = {

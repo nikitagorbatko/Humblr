@@ -27,7 +27,7 @@ class SubredditsRepositoryImpl(private val token: String, private val service: R
     override fun getNewSubreddits(): Flow<PagingData<ChildSubredditDTO>> {
         return Pager(
             config = PagingConfig(
-                pageSize = SubredditsPopularPagingSource.PER_PAGE,
+                pageSize = SubredditsNewPagingSource.PER_PAGE,
                 enablePlaceholders = false
             ),
             pagingSourceFactory = { SubredditsNewPagingSource(token = token, service = service) }
@@ -37,7 +37,7 @@ class SubredditsRepositoryImpl(private val token: String, private val service: R
     override fun getQuerySubreddits(query: String): Flow<PagingData<ChildSubredditDTO>> {
         return Pager(
             config = PagingConfig(
-                pageSize = SubredditsPopularPagingSource.PER_PAGE,
+                pageSize = SubredditsQueryPagingSource.PER_PAGE,
                 enablePlaceholders = false
             ),
             pagingSourceFactory = {
