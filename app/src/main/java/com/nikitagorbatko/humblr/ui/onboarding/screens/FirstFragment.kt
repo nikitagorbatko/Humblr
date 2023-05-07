@@ -1,15 +1,13 @@
 package com.nikitagorbatko.humblr.ui.onboarding.screens
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
+import androidx.fragment.app.Fragment
 import androidx.viewpager2.widget.ViewPager2
 import com.nikitagorbatko.humblr.R
 import com.nikitagorbatko.humblr.databinding.FragmentFirstBinding
-import com.nikitagorbatko.humblr.databinding.FragmentNotificationsBinding
 
 class FirstFragment : Fragment() {
     private var _binding: FragmentFirstBinding? = null

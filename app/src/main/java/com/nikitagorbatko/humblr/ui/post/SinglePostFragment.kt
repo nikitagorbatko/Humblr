@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewModelScope
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.nikitagorbatko.humblr.databinding.FragmentSinglePostBinding
 import com.nikitagorbatko.humblr.ui.subreddit_posts.PostsFragmentArgs
@@ -36,7 +37,8 @@ class SinglePostFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val adapter = CommentsAdapter() {
-
+            val action = SinglePostFragmentDirections.actionSinglePostFragmentToUserFragment(it)
+            findNavController().navigate(action)
         }
 
         binding.recyclerComments.adapter = adapter

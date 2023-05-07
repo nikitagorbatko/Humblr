@@ -8,6 +8,7 @@ import com.nikitagorbatko.humblr.api.dto.post.PostResponseDTO
 import com.nikitagorbatko.humblr.api.dto.subreddit.SubResponseDTO
 import com.nikitagorbatko.humblr.api.dto.user.ChildUserDTO
 import com.nikitagorbatko.humblr.api.dto.user.UserDTO
+import com.nikitagorbatko.humblr.domain.FriendUserUseCase
 import com.squareup.moshi.Moshi
 import okhttp3.RequestBody
 import okhttp3.ResponseBody
@@ -55,6 +56,16 @@ interface RedditService {
         @Query("q") query: String,
         @Header("Authorization") accessToken: String
     ): SubResponseDTO
+
+
+    @GET("/user/{username}/comments")
+    suspend fun getUserComments(
+        @Path("username") userName: String,
+        @Query("after") after: String? = null,
+        @Query("before") before: String? = null,
+        @Header("Authorization") accessToken: String
+    ): CommentsResponse
+
 
 
     @GET("subreddits/mine/subscriber")
@@ -123,7 +134,7 @@ interface RedditService {
     )
 
     @PUT("api/v1/me/friends/{uname}")
-    suspend fun befriend(
+    suspend fun addAsFriend(
         @Path("uname") userName: String,
         @Body json: RequestBody,
         @Header("Authorization") accessToken: String
@@ -131,7 +142,7 @@ interface RedditService {
 
     @HTTP(method = "DELETE", path = "api/v1/me/friends/{uname}", hasBody = true)
     //@DELETE("api/v1/me/friends/{uname}")
-    suspend fun benobody(
+    suspend fun removeFromFriends(
         @Path("uname") userName: String,
         @Body json: RequestBody,
         @Header("Authorization") accessToken: String

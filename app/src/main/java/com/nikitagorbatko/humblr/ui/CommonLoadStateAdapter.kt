@@ -1,4 +1,4 @@
-package com.nikitagorbatko.humblr.ui.subreddits
+package com.nikitagorbatko.humblr.ui
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -7,9 +7,9 @@ import androidx.paging.LoadStateAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.nikitagorbatko.humblr.databinding.LoadStateViewBinding
 
-class SubredditsLoadStateAdapter(
+class CommonLoadStateAdapter(
     /**private val retry: () -> Unit*/
-) : LoadStateAdapter<SubredditsLoadStateAdapter.LoadStateViewHolder>() {
+) : LoadStateAdapter<CommonLoadStateAdapter.LoadStateViewHolder>() {
 
     inner class LoadStateViewHolder(val binding: LoadStateViewBinding) :
         RecyclerView.ViewHolder(binding.root)

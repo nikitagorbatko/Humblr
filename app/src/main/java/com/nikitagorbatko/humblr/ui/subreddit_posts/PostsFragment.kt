@@ -12,7 +12,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.paging.LoadState
 import com.nikitagorbatko.humblr.databinding.FragmentPostsBinding
-import com.nikitagorbatko.humblr.ui.subreddits.SubredditsLoadStateAdapter
+import com.nikitagorbatko.humblr.ui.CommonLoadStateAdapter
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
@@ -49,7 +49,7 @@ class PostsFragment : Fragment() {
             findNavController().navigate(action)
         }
 
-        binding.recyclerPosts.adapter = adapter.withLoadStateFooter(SubredditsLoadStateAdapter())
+        binding.recyclerPosts.adapter = adapter.withLoadStateFooter(CommonLoadStateAdapter())
 
         viewModel.getPosts(args.displayName).onEach {
             adapter.submitData(it)

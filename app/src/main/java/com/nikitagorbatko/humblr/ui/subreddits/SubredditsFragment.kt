@@ -19,6 +19,7 @@ import androidx.paging.PagingData
 import com.google.android.material.tabs.TabLayout
 import com.nikitagorbatko.humblr.MainActivity
 import com.nikitagorbatko.humblr.databinding.FragmentSubredditsBinding
+import com.nikitagorbatko.humblr.ui.CommonLoadStateAdapter
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
@@ -74,7 +75,7 @@ class SubredditsFragment : Fragment() {
         )
 
         binding.recyclerViewSubreddits.adapter =
-            adapter.withLoadStateFooter(SubredditsLoadStateAdapter())
+            adapter.withLoadStateFooter(CommonLoadStateAdapter())
 
         viewModel.getNewSubreddits().onEach {
             adapter.submitData(it)

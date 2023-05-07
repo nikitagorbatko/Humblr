@@ -5,12 +5,9 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import com.nikitagorbatko.humblr.R
 import com.nikitagorbatko.humblr.data.preferences.SharedPreferencesRepository
-import com.nikitagorbatko.humblr.databinding.FragmentNotificationsBinding
 import com.nikitagorbatko.humblr.databinding.FragmentSplashBinding
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -36,20 +33,23 @@ class SplashFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         CoroutineScope(Dispatchers.Main).launch {
-            delay(1500)
+            delay(500)
             val a = repository.getToken()
 
-            Log.d("Tag abs", a?: "")
+            Log.d("Tag token", a?: "")
             when {
                 repository.getIsFirstStart() -> {
-                    findNavController().navigate(R.id.action_splashFragment_to_viewPagerFragment)
+                    val action = SplashFragmentDirections.actionSplashFragmentToViewPagerFragment()
+                    findNavController().navigate(action)
                 }
                 repository.getToken() != null -> {
+                    val action = SplashFragmentDirections.actionSplashFragmentToNavigationHome()
                     //check if the token is fresh
-                    findNavController().navigate(R.id.action_splashFragment_to_navigation_home)
+                    findNavController().navigate(action)
                 }
                 else -> {
-                    findNavController().navigate(R.id.action_splashFragment_to_loginFragment)
+                    val action = SplashFragmentDirections.actionSplashFragmentToLoginFragment()
+                    findNavController().navigate(action)
                 }
             }
         }
