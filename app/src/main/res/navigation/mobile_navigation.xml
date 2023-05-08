@@ -31,15 +31,19 @@
 
     <fragment
         android:id="@+id/navigation_favourites"
-        android:name="com.nikitagorbatko.humblr.ui.dashboard.DashboardFragment"
+        android:name="com.nikitagorbatko.humblr.ui.favourites.FavouritesFragment"
         android:label="@string/title_favourites"
-        tools:layout="@layout/fragment_dashboard" />
+        tools:layout="@layout/fragment_favourites" />
 
     <fragment
         android:id="@+id/navigation_user"
         android:name="com.nikitagorbatko.humblr.ui.account.AccountFragment"
         android:label="@string/title_user"
-        tools:layout="@layout/fragment_account" />
+        tools:layout="@layout/fragment_account" >
+        <action
+            android:id="@+id/action_navigation_user_to_friendsFragment"
+            app:destination="@id/friendsFragment" />
+    </fragment>
     <fragment
         android:id="@+id/loginFragment"
         android:name="com.nikitagorbatko.humblr.ui.login.LoginFragment"
@@ -106,5 +110,14 @@
         <argument
             android:name="name"
             app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/friendsFragment"
+        android:name="com.nikitagorbatko.humblr.ui.friends.FriendsFragment"
+        android:label="fragment_friends"
+        tools:layout="@layout/fragment_friends" >
+        <action
+            android:id="@+id/action_friendsFragment_to_userFragment"
+            app:destination="@id/userFragment" />
     </fragment>
 </navigation>

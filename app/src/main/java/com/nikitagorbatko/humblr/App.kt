@@ -4,6 +4,8 @@ import android.app.Application
 import com.nikitagorbatko.humblr.api.DataSource
 import com.nikitagorbatko.humblr.data.comments.CommentsRepository
 import com.nikitagorbatko.humblr.data.comments.CommentsRepositoryImpl
+import com.nikitagorbatko.humblr.data.friends.FriendsRepository
+import com.nikitagorbatko.humblr.data.friends.FriendsRepositoryImpl
 import com.nikitagorbatko.humblr.data.posts.PostsRepository
 import com.nikitagorbatko.humblr.data.posts.PostsRepositoryImpl
 import com.nikitagorbatko.humblr.data.preferences.SharedPreferencesRepository
@@ -14,6 +16,7 @@ import com.nikitagorbatko.humblr.data.user_comments.UserCommentsRepository
 import com.nikitagorbatko.humblr.data.user_comments.UserCommentsRepositoryImpl
 import com.nikitagorbatko.humblr.domain.*
 import com.nikitagorbatko.humblr.ui.account.AccountViewModel
+import com.nikitagorbatko.humblr.ui.friends.FriendsViewModel
 import com.nikitagorbatko.humblr.ui.post.SinglePostViewModel
 import com.nikitagorbatko.humblr.ui.subreddit_posts.PostsViewModel
 import com.nikitagorbatko.humblr.ui.subreddits.SubredditsViewModel
@@ -24,19 +27,13 @@ import org.koin.core.context.startKoin
 import org.koin.dsl.module
 
 class App : Application() {
-//    private val auth = module {
-//        single { AuthorizationService(androidContext()) }
-//    }
-//    private val ui = module {
-//        viewModel { DashboardViewModel() }
-//    }
-
     private val uiModule = module {
         viewModel { SubredditsViewModel(get(), get(), get()) }
         viewModel { PostsViewModel(get()) }
         viewModel { SinglePostViewModel(get()) }
         viewModel { UserViewModel(get(), get(), get()) }
-        viewModel { AccountViewModel(get()) }
+        viewModel { AccountViewModel(get(), get()) }
+        viewModel { FriendsViewModel(get()) }
     }
 
     private val domainModule = module {
@@ -57,6 +54,7 @@ class App : Application() {
         }
         single<CommentsRepository> { CommentsRepositoryImpl(get(), get()) }
         single<UserCommentsRepository> { UserCommentsRepositoryImpl(get(), DataSource().redditService) }
+        single<FriendsRepository> { FriendsRepositoryImpl(get(), DataSource().redditService) }
     }
 
     override fun onCreate() {

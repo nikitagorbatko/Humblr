@@ -21,4 +21,19 @@
     <string name="popular_tab">Популярное</string>
     <string name="search_hint">Поиск</string>
 
+    <string name="friends_title">Друзья</string>
+
+    <string name="subscribe_title">Подписаться</string>
+    <string name="unsubscribe_title">Отписатся</string>
+    <string name="error">Ошибка</string>
+
+    <string name="logout_warning_message">Вы уверены, что хотите выйти?</string>
+    <string name="ok">Да</string>
+    <string name="cancel">Отмена</string>
+    <string name="comments">Комментарии</string>
+    <string name="all">Все</string>
+    <string name="saved">Сохраненные</string>
+
+
+
 </resources>

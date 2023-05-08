@@ -1,14 +1,11 @@
 package com.nikitagorbatko.humblr.ui.subreddits
 
 import android.content.Context
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
-import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.nikitagorbatko.humblr.R
 import com.nikitagorbatko.humblr.api.dto.subreddit.ChildSubredditDTO
 import com.nikitagorbatko.humblr.databinding.SubredditItemBinding
@@ -19,8 +16,12 @@ class SubredditsAdapter(
     private val onAddClick: (subscribed: Boolean, name: String) -> Unit
 ) :
     PagingDataAdapter<ChildSubredditDTO, SubredditsAdapter.ViewHolder>(DiffUtilCallback()) {
-    private val subscribedImage = context.resources.getDrawable(R.drawable.added_person)
-    private val addPersonImage = context.resources.getDrawable(R.drawable.add_person)
+    private val subscribedImage = context.resources.getDrawable(R.drawable.ic_added_person)
+    private val addPersonImage = context.resources.getDrawable(R.drawable.ic_add_person)
+    private val subscribedBackground =
+        context.resources.getDrawable(R.drawable.text_background_subscribed)
+    private val unsubscribedBackground = context.resources.getDrawable(R.drawable.text_background)
+
 
     inner class ViewHolder(val binding: SubredditItemBinding) :
         RecyclerView.ViewHolder(binding.root)
@@ -47,6 +48,11 @@ class SubredditsAdapter(
                     addPersonImage
                 }
             )
+            textViewTitle.background = if (subscribed) {
+                subscribedBackground
+            } else {
+                unsubscribedBackground
+            }
             addClickArea.setOnClickListener {
                 subreddit?.data?.subscribed = !subscribed
                 notifyItemChanged(position)

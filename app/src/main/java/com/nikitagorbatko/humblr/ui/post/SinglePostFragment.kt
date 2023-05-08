@@ -5,16 +5,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.nikitagorbatko.humblr.databinding.FragmentSinglePostBinding
-import com.nikitagorbatko.humblr.ui.subreddit_posts.PostsFragmentArgs
-import com.nikitagorbatko.humblr.ui.subreddit_posts.PostsViewModel
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -48,6 +42,28 @@ class SinglePostFragment : Fragment() {
             viewModel.comments.collect {
                 if (it != null) {
                     adapter.addAll(it)
+                }
+            }
+        }
+
+        viewModel.viewModelScope.launch {
+            viewModel.state.collect {
+                when (it) {
+                    SinglePostViewModel.State.PRESENT -> {
+                        binding.recyclerComments.visibility = View.VISIBLE
+                        binding.progressBarSinglePost.visibility = View.GONE
+                        binding.textViewSinglePostError.visibility = View.GONE
+                    }
+                    SinglePostViewModel.State.ERROR -> {
+                        binding.recyclerComments.visibility = View.GONE
+                        binding.progressBarSinglePost.visibility = View.GONE
+                        binding.textViewSinglePostError.visibility = View.VISIBLE
+                    }
+                    SinglePostViewModel.State.LOADING -> {
+                        binding.recyclerComments.visibility = View.GONE
+                        binding.progressBarSinglePost.visibility = View.VISIBLE
+                        binding.textViewSinglePostError.visibility = View.GONE
+                    }
                 }
             }
         }

@@ -1,5 +1,6 @@
 package com.nikitagorbatko.humblr.ui.user
 
+import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -11,7 +12,6 @@ import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.nikitagorbatko.humblr.R
-import com.nikitagorbatko.humblr.api.dto.user.ChildUserDTO
 import com.nikitagorbatko.humblr.databinding.FragmentUserBinding
 import com.nikitagorbatko.humblr.ui.CommonLoadStateAdapter
 import kotlinx.coroutines.flow.launchIn
@@ -28,8 +28,14 @@ class UserFragment : Fragment() {
     private val viewModel: UserViewModel by viewModel()
     private lateinit var adapter: UserCommentsAdapter
 
+    private var isUserFriend: Boolean = false
+    private var subscribedColor: Int = -1
+    private var notSubscribedColor: Int = -1
+    private lateinit var subscribedImage: Drawable
+    private lateinit var addPersonImage: Drawable
+    private lateinit var subscribeTitle: String
+    private lateinit var unsubscribeTitle: String
 
-    private var user: ChildUserDTO? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -42,6 +48,14 @@ class UserFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val context = requireContext()
+
+        subscribedColor = context.resources.getColor(R.color.teal_200)
+        notSubscribedColor = context.resources.getColor(R.color.main)
+        subscribedImage = context.resources.getDrawable(R.drawable.ic_added_person_white)
+        addPersonImage = context.resources.getDrawable(R.drawable.ic_add_person_white)
+        subscribeTitle = context.resources.getString(R.string.subscribe_title)
+        unsubscribeTitle = context.resources.getString(R.string.unsubscribe_title)
 
         bind()
         observe()
@@ -55,21 +69,32 @@ class UserFragment : Fragment() {
             CommonLoadStateAdapter()
         )
         binding.subscribeCard.setOnClickListener {
-//            if (user?.data?.isFriend != true) {
-//
-//            }
+            if (isUserFriend) {
+                //send request
+                binding.subscribeLayout.setBackgroundColor(notSubscribedColor)
+                binding.imageViewSubscribeStatus.setImageDrawable(addPersonImage)
+                binding.textViewSubscribe.text = subscribeTitle
+            } else {
+                //send request
+                binding.subscribeLayout.setBackgroundColor(subscribedColor)
+                binding.imageViewSubscribeStatus.setImageDrawable(subscribedImage)
+                binding.textViewSubscribe.text = unsubscribeTitle
+            }
             viewModel.viewModelScope.launch {
                 viewModel.addAsFriend(args.name)
             }
+            isUserFriend = !isUserFriend
         }
     }
+
 
     private fun observe() {
         viewModel.viewModelScope.launch {
             viewModel.getUserInfo(args.name)
             viewModel.user.collect {
                 if (it != null) {
-                    user = it
+                    binding.toolbarUser.title = it.data.name
+                    isUserFriend = it.data.isFriend == true
                     Glide.with(binding.root)
                         .load(it.data.icon_img)
                         .transition(DrawableTransitionOptions.withCrossFade())
@@ -77,7 +102,15 @@ class UserFragment : Fragment() {
                         .error(R.drawable.ic_avatar_frog)
                         .into(binding.imageViewAvatar)
                     binding.textViewUserName.text = it.data.name
-
+                    if (isUserFriend) {
+                        binding.subscribeLayout.setBackgroundColor(subscribedColor)
+                        binding.imageViewSubscribeStatus.setImageDrawable(subscribedImage)
+                        binding.textViewSubscribe.text = unsubscribeTitle
+                    } else {
+                        binding.subscribeLayout.setBackgroundColor(notSubscribedColor)
+                        binding.imageViewSubscribeStatus.setImageDrawable(addPersonImage)
+                        binding.textViewSubscribe.text = subscribeTitle
+                    }
                 }
             }
         }

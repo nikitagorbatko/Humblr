@@ -35,6 +35,7 @@
             android:ellipsize="end"
             android:maxLines="2"
             android:textColor="@color/black"
+            android:background="@color/text_background"
             android:textSize="16sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -52,7 +53,7 @@
             android:layout_marginEnd="16dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/add_person" />
+            app:srcCompat="@drawable/ic_add_person" />
 
         <ImageView
             android:id="@+id/image_view_main"

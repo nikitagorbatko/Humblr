@@ -40,7 +40,6 @@ class SubredditsFragment : Fragment() {
     ): View {
         (requireActivity() as MainActivity).showBottom()
         _binding = FragmentSubredditsBinding.inflate(inflater, container, false)
-
         return binding.root
     }
 
@@ -115,12 +114,15 @@ class SubredditsFragment : Fragment() {
             override fun onTabSelected(tab: TabLayout.Tab?) {
                 binding.searchEditText.setText("")
 
+                //review
                 val inputMethodManager: InputMethodManager =
                     getSystemService(
                         requireContext(),
                         InputMethodManager::class.java
                     ) as InputMethodManager
-                inputMethodManager.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0)
+                if (inputMethodManager.isAcceptingText) {
+                    inputMethodManager.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 1)
+                }
 
                 when (tab?.position) {
                     0 -> {

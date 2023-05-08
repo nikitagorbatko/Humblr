@@ -157,6 +157,7 @@
         app:layout_constraintTop_toBottomOf="@+id/card_view_user_info">
 
         <LinearLayout
+            android:id="@+id/subscribe_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@color/main"
@@ -174,12 +175,12 @@
                 android:textStyle="bold" />
 
             <ImageView
-                android:id="@+id/imageView5"
+                android:id="@+id/image_view_subscribe_status"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_weight="1"
-                android:src="@drawable/add_person_white" />
+                android:src="@drawable/ic_add_person_white" />
 
 
         </LinearLayout>

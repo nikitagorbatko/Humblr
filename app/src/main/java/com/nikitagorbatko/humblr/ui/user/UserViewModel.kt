@@ -7,6 +7,8 @@ import com.nikitagorbatko.humblr.api.dto.user.ChildUserDTO
 import com.nikitagorbatko.humblr.data.user_comments.UserCommentsRepository
 import com.nikitagorbatko.humblr.domain.FriendUserUseCase
 import com.nikitagorbatko.humblr.domain.GetUserUseCase
+import com.nikitagorbatko.humblr.domain.SubscribeUseCase
+import com.nikitagorbatko.humblr.domain.UnsubscribeUseCase
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -15,7 +17,7 @@ import kotlinx.coroutines.flow.consumeAsFlow
 class UserViewModel(
     private val getUserUseCase: GetUserUseCase,
     private val repository: UserCommentsRepository,
-    private val friendUserUseCase: FriendUserUseCase
+    private val friendUserUseCase: FriendUserUseCase,
 ) : ViewModel() {
     private val _state = MutableStateFlow(State.LOADING)
     val state = _state.asStateFlow()

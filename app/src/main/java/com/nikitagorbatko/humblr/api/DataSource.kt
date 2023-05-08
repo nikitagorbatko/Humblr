@@ -18,22 +18,6 @@ import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.http.*
 
 interface RedditService {
-    @GET("{sr}?limit=${DataSource.ITEMS_ON_PAGE}")
-    suspend fun getPostsFromSubreddit(
-        @Path("sr") subredditName: String,
-        @Query("after") after: String? = null,
-        @Query("before") before: String? = null,
-        @Header("Authorization") accessToken: String
-    ): PostResponseDTO
-
-    @GET("subreddits/{set}?limit=${DataSource.ITEMS_ON_PAGE}")
-    suspend fun getSubreddits(
-        @Path("set") subredditSet: DataSource.SUBREDDITS_SET,
-        @Query("after") after: String? = null,
-        @Query("before") before: String? = null,
-        @Header("Authorization") accessToken: String
-    ): SubResponseDTO
-
     @GET("subreddits/new")
     suspend fun getNewSubreddits(
         @Query("after") after: String? = null,
@@ -65,8 +49,6 @@ interface RedditService {
         @Query("before") before: String? = null,
         @Header("Authorization") accessToken: String
     ): CommentsResponse
-
-
 
     @GET("subreddits/mine/subscriber")
     suspend fun getFavoriteSubreddits(
@@ -177,14 +159,8 @@ class DataSource {
         const val ITEMS_ON_PAGE = 10
     }
 
-    enum class SUBREDDITS_SET {
-        new,
-        popular,
-        favorite
-    }
-
     private val moshi = Moshi.Builder()
-        .add(SkipEmptyRepliesAdapter()) //the ordering matters
+        .add(SkipEmptyRepliesAdapter())
         .build()
 
     private val retrofit =
@@ -193,111 +169,4 @@ class DataSource {
             .addConverterFactory(MoshiConverterFactory.create(moshi))
             .build()
     val redditService = retrofit.create(RedditService::class.java)
-//
-//    suspend fun getPostsFromSubreddit(srSubName: String, after: String? = null, before: String? = null) =
-//        redditService.getPostsFromSubreddit(
-//            srSubName,
-//            after,
-//            before,
-//            "bearer ${TokenStorage.accessToken.value}"
-//        ).data
-//
-//    suspend fun getNewSubreddits(after: String? = null, before: String? = null) =
-//        redditService.getSubreddits(
-//            SUBREDDITS_SET.new,
-//            after,
-//            before,
-//            "bearer ${TokenStorage.accessToken.value}"
-//        ).data
-//
-//    suspend fun getPopularSubreddits(after: String? = null, before: String? = null) =
-//        redditService.getSubreddits(
-//            SUBREDDITS_SET.popular,
-//            after,
-//            before,
-//            "bearer ${TokenStorage.accessToken.value}"
-//        ).data
-//
-//    suspend fun getFavoriteSubreddits(after: String?, before: String?) =
-//        redditService.getFavoriteSubreddits(
-//            after,
-//            before,
-//            "bearer ${TokenStorage.accessToken.value}"
-//        ).data
-//
-//    suspend fun getSavedPosts(userName: String, after: String?, before: String?) =
-//        redditService.getSavedPosts(
-//            userName,
-//            after,
-//            before,
-//            "bearer ${TokenStorage.accessToken.value}"
-//        ).data
-//
-//    suspend fun getSubbreditsByQuery(query:String,after: String? = null, before: String? = null) =
-//        redditService.getSubredditsByQuery(
-//            query,
-//            after,
-//            before,
-//            "bearer ${TokenStorage.accessToken.value}"
-//        ).data
-//
-//    suspend fun getCommentsOfPost(postID: String, after: String? = null, before: String? = null ) =
-//        redditService.getCommentsOfPost(
-//            postID,
-//            after,
-//            before,
-//            "bearer ${TokenStorage.accessToken.value}"
-//        )[1].data
-//
-//    suspend fun getUserInfo(userName: String) =
-//        redditService.getUserInfo(
-//            userName,
-//            "bearer ${TokenStorage.accessToken.value}"
-//        ).data
-//
-//    suspend fun joinToSub(fullTName: String, subscribeState: Boolean):Boolean {
-//        return if(subscribeState){
-//            redditService.leaveSub(fullTName, "bearer ${TokenStorage.accessToken.value}")
-//            false
-//        } else {
-//            redditService.joinToSub(fullTName, "bearer ${TokenStorage.accessToken.value}")
-//            true
-//        }
-//    }
-//
-//    suspend fun befriend(userName: String, isFriend:Boolean):Boolean{
-//        val jsonObject = JSONObject()
-//        jsonObject.put("id", userName)
-//        val requestBody = jsonObject.toString().toRequestBody("application/json".toMediaTypeOrNull())
-//        return if(isFriend){
-//            redditService.benobody(
-//                userName,
-//                requestBody,
-//                "bearer ${TokenStorage.accessToken.value}"
-//            )
-//            false
-//        }else {
-//            redditService.befriend(
-//                userName,
-//                requestBody,
-//                "bearer ${TokenStorage.accessToken.value}"
-//            )
-//            true
-//        }
-//    }
-//
-//    suspend fun getFriends() =
-//        redditService.getFriends("bearer ${TokenStorage.accessToken.value}")
-//            .data.children
-//
-//    suspend fun savePost(postID: String, isSaved: Boolean):Boolean{
-//        return if(isSaved){
-//            redditService.unsavePost(postID, "bearer ${TokenStorage.accessToken.value}")
-//            false
-//        }else{
-//            redditService.savePost(postID, "bearer ${TokenStorage.accessToken.value}")
-//            true
-//        }
-//    }
-//    suspend fun getAboutMe() = redditService.getAboutMe("bearer ${TokenStorage.accessToken.value}")
 }
