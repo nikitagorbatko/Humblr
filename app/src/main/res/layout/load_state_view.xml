@@ -21,7 +21,7 @@
 <!--        tools:text="Error message" />-->
 
     <ProgressBar
-        android:id="@+id/load_state_progress"
+        android:id="@+id/progress_load_state"
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:layout_centerHorizontal="true"

@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -37,7 +38,7 @@ class SinglePostFragment : Fragment() {
 
         binding.recyclerComments.adapter = adapter
 
-        viewModel.viewModelScope.launch {
+        viewLifecycleOwner.lifecycleScope.launch {
             viewModel.getComments(args.id)
             viewModel.comments.collect {
                 if (it != null) {
@@ -46,23 +47,23 @@ class SinglePostFragment : Fragment() {
             }
         }
 
-        viewModel.viewModelScope.launch {
+        viewLifecycleOwner.lifecycleScope.launch {
             viewModel.state.collect {
                 when (it) {
                     SinglePostViewModel.State.PRESENT -> {
                         binding.recyclerComments.visibility = View.VISIBLE
-                        binding.progressBarSinglePost.visibility = View.GONE
-                        binding.textViewSinglePostError.visibility = View.GONE
+                        binding.progressSinglePost.visibility = View.GONE
+                        binding.textSinglePostError.visibility = View.GONE
                     }
                     SinglePostViewModel.State.ERROR -> {
                         binding.recyclerComments.visibility = View.GONE
-                        binding.progressBarSinglePost.visibility = View.GONE
-                        binding.textViewSinglePostError.visibility = View.VISIBLE
+                        binding.progressSinglePost.visibility = View.GONE
+                        binding.textSinglePostError.visibility = View.VISIBLE
                     }
                     SinglePostViewModel.State.LOADING -> {
                         binding.recyclerComments.visibility = View.GONE
-                        binding.progressBarSinglePost.visibility = View.VISIBLE
-                        binding.textViewSinglePostError.visibility = View.GONE
+                        binding.progressSinglePost.visibility = View.VISIBLE
+                        binding.textSinglePostError.visibility = View.GONE
                     }
                 }
             }

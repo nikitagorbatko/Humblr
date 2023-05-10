@@ -12,7 +12,7 @@
         android:layout_height="wrap_content">
 
         <androidx.cardview.widget.CardView
-            android:id="@+id/cardView"
+            android:id="@+id/card_friend"
             android:layout_width="80dp"
             android:layout_height="80dp"
             android:layout_marginStart="16dp"
@@ -25,14 +25,14 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <ImageView
-                android:id="@+id/image_view_person"
+                android:id="@+id/image_person"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 tools:srcCompat="@tools:sample/avatars" />
         </androidx.cardview.widget.CardView>
 
         <TextView
-            android:id="@+id/text_view_person_name"
+            android:id="@+id/text_person_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
@@ -42,13 +42,13 @@
             android:textColor="@color/black"
             android:textSize="20sp"
             android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="@+id/cardView"
-            app:layout_constraintStart_toStartOf="@+id/cardView"
-            app:layout_constraintTop_toBottomOf="@+id/cardView"
+            app:layout_constraintEnd_toEndOf="@+id/card_friend"
+            app:layout_constraintStart_toStartOf="@+id/card_friend"
+            app:layout_constraintTop_toBottomOf="@+id/card_friend"
             tools:text="Friend" />
 
         <TextView
-            android:id="@+id/text_view_person_tag"
+            android:id="@+id/text_person_tag"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
@@ -59,9 +59,9 @@
             android:textColor="@color/black"
             android:textSize="14sp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="@+id/text_view_person_name"
-            app:layout_constraintStart_toStartOf="@+id/text_view_person_name"
-            app:layout_constraintTop_toBottomOf="@+id/text_view_person_name"
+            app:layout_constraintEnd_toEndOf="@+id/text_person_name"
+            app:layout_constraintStart_toStartOf="@+id/text_person_name"
+            app:layout_constraintTop_toBottomOf="@+id/text_person_name"
             app:layout_constraintVertical_bias="0"
             tools:text="\@text" />
     </androidx.constraintlayout.widget.ConstraintLayout>

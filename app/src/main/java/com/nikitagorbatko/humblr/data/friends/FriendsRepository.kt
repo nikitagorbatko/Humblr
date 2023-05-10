@@ -1,7 +1,7 @@
 package com.nikitagorbatko.humblr.data.friends
 
-import com.nikitagorbatko.humblr.api.dto.friends.FriendDTO
+import com.nikitagorbatko.humblr.api.pojos.FriendDto
 
 interface FriendsRepository {
-    suspend fun getFriends(): List<FriendDTO>
+    suspend fun getFriends(): List<FriendDto>
 }

@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.fragment.findNavController
 import com.nikitagorbatko.humblr.databinding.FragmentFriendsBinding
@@ -53,29 +54,29 @@ class FriendsFragment : Fragment() {
     }
 
     private fun observe() {
-        viewModel.viewModelScope.launch {
+        viewLifecycleOwner.lifecycleScope.launch {
             viewModel.getFriends()
             viewModel.friends.collect {
                 adapter.addAll(it)
             }
         }
 
-        viewModel.viewModelScope.launch {
+        viewLifecycleOwner.lifecycleScope.launch {
             viewModel.state.collect {
                 when (it) {
                     FriendsViewModel.State.PRESENT -> {
-                        binding.progressBarFriends.visibility = View.GONE
-                        binding.textViewFriendsError.visibility = View.GONE
+                        binding.progressFavorites.visibility = View.GONE
+                        binding.textFavoritesError.visibility = View.GONE
                         binding.recyclerFriends.visibility = View.VISIBLE
                     }
                     FriendsViewModel.State.ERROR -> {
-                        binding.progressBarFriends.visibility = View.GONE
-                        binding.textViewFriendsError.visibility = View.VISIBLE
+                        binding.progressFavorites.visibility = View.GONE
+                        binding.textFavoritesError.visibility = View.VISIBLE
                         binding.recyclerFriends.visibility = View.GONE
                     }
                     FriendsViewModel.State.LOADING -> {
-                        binding.progressBarFriends.visibility = View.VISIBLE
-                        binding.textViewFriendsError.visibility = View.GONE
+                        binding.progressFavorites.visibility = View.VISIBLE
+                        binding.textFavoritesError.visibility = View.GONE
                         binding.recyclerFriends.visibility = View.GONE
                     }
                 }

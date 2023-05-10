@@ -10,7 +10,7 @@
 
 
     <ImageView
-        android:id="@+id/image_view_logo"
+        android:id="@+id/image_logo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/ic_second_screen"
@@ -31,7 +31,7 @@
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/image_view_logo" />
+        app:layout_constraintTop_toBottomOf="@+id/image_logo" />
 
     <TextView
         android:id="@+id/description"

@@ -1,7 +1,7 @@
 package com.nikitagorbatko.humblr
 
 import android.app.Application
-import com.nikitagorbatko.humblr.api.DataSource
+import com.nikitagorbatko.humblr.api.RetrofitReddit
 import com.nikitagorbatko.humblr.data.comments.CommentsRepository
 import com.nikitagorbatko.humblr.data.comments.CommentsRepositoryImpl
 import com.nikitagorbatko.humblr.data.friends.FriendsRepository
@@ -16,6 +16,7 @@ import com.nikitagorbatko.humblr.data.user_comments.UserCommentsRepository
 import com.nikitagorbatko.humblr.data.user_comments.UserCommentsRepositoryImpl
 import com.nikitagorbatko.humblr.domain.*
 import com.nikitagorbatko.humblr.ui.account.AccountViewModel
+import com.nikitagorbatko.humblr.ui.favourites.FavouritesViewModel
 import com.nikitagorbatko.humblr.ui.friends.FriendsViewModel
 import com.nikitagorbatko.humblr.ui.post.SinglePostViewModel
 import com.nikitagorbatko.humblr.ui.subreddit_posts.PostsViewModel
@@ -27,6 +28,24 @@ import org.koin.core.context.startKoin
 import org.koin.dsl.module
 
 class App : Application() {
+    private val apiModule = module {
+        single { RetrofitReddit() }
+        single { get<RetrofitReddit>().addFriendService() }
+        single { get<RetrofitReddit>().defaultSubredditsService() }
+        single { get<RetrofitReddit>().favouriteSubredditsService() }
+        single { get<RetrofitReddit>().friendService() }
+        single { get<RetrofitReddit>().meService() }
+        single { get<RetrofitReddit>().newSubredditsService() }
+        single { get<RetrofitReddit>().popularSubredditsService() }
+        single { get<RetrofitReddit>().postCommentsService() }
+        single { get<RetrofitReddit>().querySubredditsService() }
+        single { get<RetrofitReddit>().subredditsService() }
+        single { get<RetrofitReddit>().subscribeSubService() }
+        single { get<RetrofitReddit>().unsubscribeSubService() }
+        single { get<RetrofitReddit>().userCommentsService() }
+        single { get<RetrofitReddit>().userInfoService() }
+    }
+
     private val uiModule = module {
         viewModel { SubredditsViewModel(get(), get(), get()) }
         viewModel { PostsViewModel(get()) }
@@ -34,27 +53,29 @@ class App : Application() {
         viewModel { UserViewModel(get(), get(), get()) }
         viewModel { AccountViewModel(get(), get()) }
         viewModel { FriendsViewModel(get()) }
+        viewModel { FavouritesViewModel(get(), get()) }
     }
 
     private val domainModule = module {
-        factory { SubscribeUseCase(DataSource().redditService, get()) }
-        factory { UnsubscribeUseCase(DataSource().redditService, get()) }
-        factory { GetAllCommentsUseCase(DataSource().redditService, get()) }
-        factory { GetUserUseCase(DataSource().redditService, get()) }
-        factory { FriendUserUseCase(DataSource().redditService, get()) }
-        factory { GetAccountUseCase(DataSource().redditService, get()) }
+        factory { SubscribeUseCase(get(), get()) }
+        factory { UnsubscribeUseCase(get(), get()) }
+        factory { GetAllCommentsUseCase(get(), get()) }
+        factory { GetUserUseCase(get(), get()) }
+        factory { FriendUserUseCase(get(), get()) }
+        factory { GetAccountUseCase(get(), get()) }
+        factory { GetFavouriteSubredditsUseCase(get(), get()) }
     }
 
     private val dataModule = module {
         single<SharedPreferencesRepository> { SharedPreferencesRepositoryImpl(androidContext()) }
         single { get<SharedPreferencesRepository>().getToken() }
-        single<SubredditsRepository> { SubredditsRepositoryImpl(get(), DataSource().redditService) }
+        single<SubredditsRepository> { SubredditsRepositoryImpl(get(), get(), get(), get(), get(), get()) }
         single<PostsRepository> {
-            PostsRepositoryImpl(get(), DataSource().redditService)
+            PostsRepositoryImpl(get(), get())
         }
-        single<CommentsRepository> { CommentsRepositoryImpl(get(), get()) }
-        single<UserCommentsRepository> { UserCommentsRepositoryImpl(get(), DataSource().redditService) }
-        single<FriendsRepository> { FriendsRepositoryImpl(get(), DataSource().redditService) }
+        single<CommentsRepository> { CommentsRepositoryImpl(get()) }
+        single<UserCommentsRepository> { UserCommentsRepositoryImpl(get(), get()) }
+        single<FriendsRepository> { FriendsRepositoryImpl(get(), get()) }
     }
 
     override fun onCreate() {
@@ -63,6 +84,7 @@ class App : Application() {
         startKoin {
             androidContext(this@App)
             modules(
+                apiModule,
                 domainModule,
                 dataModule,
                 uiModule

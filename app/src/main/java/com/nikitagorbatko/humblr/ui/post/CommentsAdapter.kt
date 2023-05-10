@@ -2,11 +2,9 @@ package com.nikitagorbatko.humblr.ui.post
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.nikitagorbatko.humblr.api.dto.CommentDto
-import com.nikitagorbatko.humblr.api.dto.CommentsResponse
+import com.nikitagorbatko.humblr.api.pojos.CommentDto
 import com.nikitagorbatko.humblr.databinding.TestCommentItemBinding
 
 
@@ -38,9 +36,10 @@ class CommentsAdapter(
         //post.data.
 
         with(holder.binding) {
-            textView.text = comment?.data?.body + "\n\n"
+            textView.text = comment.data?.repliesDto?.data?.children?.size.toString()
+
             root.setOnClickListener {
-                comment.data?.author?.let { it1 -> onItemClick(it1) }
+                //comment.data?.author?.let { it1 -> onItemClick(it1) }
             }
 //            root.setOnClickListener {
 //                post?.data?.id?.let { it1 -> onItemClick(it1) }

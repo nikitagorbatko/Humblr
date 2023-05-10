@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.nikitagorbatko.humblr.AppAuth
 import com.nikitagorbatko.humblr.MainActivity
@@ -78,7 +79,8 @@ class LoginFragment : Fragment() {
             if (exception != null) {
                 Log.d("TAG auth123", exception.message ?: "authResponse handle exception")
             } else {
-                CoroutineScope(Dispatchers.IO).launch {
+                viewLifecycleOwner.lifecycleScope.launch {
+//                CoroutineScope(Dispatchers.IO).launch {
                     onCodeReceived(tokenExchangeRequest)
                 }
             }

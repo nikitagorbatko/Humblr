@@ -1,10 +1,10 @@
 package com.nikitagorbatko.humblr.domain
 
-import com.nikitagorbatko.humblr.api.RedditService
-import com.nikitagorbatko.humblr.api.dto.user.ChildUserDTO
+import com.nikitagorbatko.humblr.api.pojos.ChildUserDto
+import com.nikitagorbatko.humblr.api.services.UserInfoService
 
-class GetUserUseCase(private val service: RedditService, private val token: String) {
-    suspend fun execute(author: String): ChildUserDTO {
+class GetUserUseCase(private val service: UserInfoService, private val token: String) {
+    suspend fun execute(author: String): ChildUserDto {
         return service.getUserInfo(userName = author, accessToken = token)
     }
 }

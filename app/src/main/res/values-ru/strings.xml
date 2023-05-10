@@ -25,7 +25,7 @@
 
     <string name="subscribe_title">Подписаться</string>
     <string name="unsubscribe_title">Отписатся</string>
-    <string name="error">Ошибка</string>
+    <string name="error_text">Нет интернет соединения</string>
 
     <string name="logout_warning_message">Вы уверены, что хотите выйти?</string>
     <string name="ok">Да</string>
@@ -33,6 +33,12 @@
     <string name="comments">Комментарии</string>
     <string name="all">Все</string>
     <string name="saved">Сохраненные</string>
+    <string name="logout">Выйти</string>
+    <string name="clear_saved">Очистить сохраненные</string>
+    <string name="friend_list">Список друзей</string>
+
+
+
 
 
 

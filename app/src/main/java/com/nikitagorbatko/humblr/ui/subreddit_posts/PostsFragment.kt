@@ -1,6 +1,7 @@
 package com.nikitagorbatko.humblr.ui.subreddit_posts
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -35,15 +36,16 @@ class PostsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.toolbar.title = args.displayName
-        binding.toolbar.setNavigationOnClickListener {
+        binding.toolbarPosts.title = args.displayName
+        binding.toolbarPosts.setNavigationOnClickListener {
             findNavController().popBackStack()
         }
-        binding.toolbar.setOnMenuItemClickListener {
+        binding.toolbarPosts.setOnMenuItemClickListener {
             true
         }
 
         val adapter = PostsAdapter {
+            Log.d("TAG post", it)
             val action =
                 PostsFragmentDirections.actionSubredditPostsFragmentToSinglePostFragment(it)
             findNavController().navigate(action)

@@ -1,8 +1,8 @@
 package com.nikitagorbatko.humblr.domain
 
-import com.nikitagorbatko.humblr.api.RedditService
+import com.nikitagorbatko.humblr.api.services.SubscribeSubService
 
-class SubscribeUseCase(private val service: RedditService, private val token: String) {
+class SubscribeUseCase(private val service: SubscribeSubService, private val token: String) {
     suspend fun execute(subName: String) {
         service.subscribeToSub(subName = subName, token = token)
     }

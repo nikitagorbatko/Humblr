@@ -3,16 +3,12 @@ package com.nikitagorbatko.humblr.ui.user
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.cachedIn
-import com.nikitagorbatko.humblr.api.dto.user.ChildUserDTO
+import com.nikitagorbatko.humblr.api.pojos.ChildUserDto
 import com.nikitagorbatko.humblr.data.user_comments.UserCommentsRepository
 import com.nikitagorbatko.humblr.domain.FriendUserUseCase
 import com.nikitagorbatko.humblr.domain.GetUserUseCase
-import com.nikitagorbatko.humblr.domain.SubscribeUseCase
-import com.nikitagorbatko.humblr.domain.UnsubscribeUseCase
-import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.consumeAsFlow
 
 class UserViewModel(
     private val getUserUseCase: GetUserUseCase,
@@ -22,7 +18,7 @@ class UserViewModel(
     private val _state = MutableStateFlow(State.LOADING)
     val state = _state.asStateFlow()
 
-    private val _user = MutableStateFlow<ChildUserDTO?>(null)
+    private val _user = MutableStateFlow<ChildUserDto?>(null)
     val user = _user.asStateFlow()
 
     suspend fun getUserInfo(author: String) {

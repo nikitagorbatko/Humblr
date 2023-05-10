@@ -3,7 +3,7 @@ package com.nikitagorbatko.humblr.ui.friends
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.nikitagorbatko.humblr.api.dto.friends.FriendDTO
+import com.nikitagorbatko.humblr.api.pojos.FriendDto
 import com.nikitagorbatko.humblr.databinding.FriendItemBinding
 
 
@@ -12,7 +12,7 @@ class FriendsAdapter(
     private val onItemClick: (name: String) -> Unit
 ) :
     RecyclerView.Adapter<FriendsAdapter.ViewHolder>() {
-    private val friendsList = mutableListOf<FriendDTO>()
+    private val friendsList = mutableListOf<FriendDto>()
 
     inner class ViewHolder(val binding: FriendItemBinding) :
         RecyclerView.ViewHolder(binding.root)
@@ -25,7 +25,7 @@ class FriendsAdapter(
 
     override fun getItemCount() = friendsList.size
 
-    fun addAll(friends: List<FriendDTO>) {
+    fun addAll(friends: List<FriendDto>) {
         friendsList.addAll(friends)
         notifyDataSetChanged()
     }
@@ -34,7 +34,7 @@ class FriendsAdapter(
         val friend = friendsList[position]
 
         with(holder.binding) {
-            textViewPersonName.text = friend.name
+            textPersonName.text = friend.name
             root.setOnClickListener {
                onItemClick(friend.name)
             }

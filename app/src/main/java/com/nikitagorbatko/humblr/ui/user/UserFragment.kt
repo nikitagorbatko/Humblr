@@ -65,7 +65,7 @@ class UserFragment : Fragment() {
         adapter = UserCommentsAdapter {
 
         }
-        binding.recyclerViewUserComments.adapter = adapter.withLoadStateFooter(
+        binding.recyclerUserComments.adapter = adapter.withLoadStateFooter(
             CommonLoadStateAdapter()
         )
         binding.subscribeCard.setOnClickListener {
@@ -89,7 +89,7 @@ class UserFragment : Fragment() {
 
 
     private fun observe() {
-        viewModel.viewModelScope.launch {
+        viewLifecycleOwner.lifecycleScope.launch {
             viewModel.getUserInfo(args.name)
             viewModel.user.collect {
                 if (it != null) {
@@ -100,7 +100,7 @@ class UserFragment : Fragment() {
                         .transition(DrawableTransitionOptions.withCrossFade())
                         .centerCrop()
                         .error(R.drawable.ic_avatar_frog)
-                        .into(binding.imageViewAvatar)
+                        .into(binding.imageAvatar)
                     binding.textViewUserName.text = it.data.name
                     if (isUserFriend) {
                         binding.subscribeLayout.setBackgroundColor(subscribedColor)
@@ -119,26 +119,26 @@ class UserFragment : Fragment() {
             adapter.submitData(it)
         }.launchIn(viewLifecycleOwner.lifecycleScope)
 
-        viewModel.viewModelScope.launch {
+        viewLifecycleOwner.lifecycleScope.launch {
             viewModel.state.collect {
                 when (it) {
                     UserViewModel.State.PRESENT -> {
                         binding.cardViewUserInfo.visibility = View.VISIBLE
                         binding.subscribeCard.visibility = View.VISIBLE
-                        binding.progressBar.visibility = View.GONE
-                        binding.textViewError.visibility = View.GONE
+                        binding.progressUser.visibility = View.GONE
+                        binding.textUserError.visibility = View.GONE
                     }
                     UserViewModel.State.ERROR -> {
                         binding.cardViewUserInfo.visibility = View.GONE
                         binding.subscribeCard.visibility = View.GONE
-                        binding.progressBar.visibility = View.GONE
-                        binding.textViewError.visibility = View.VISIBLE
+                        binding.progressUser.visibility = View.GONE
+                        binding.textUserError.visibility = View.VISIBLE
                     }
                     UserViewModel.State.LOADING -> {
                         binding.cardViewUserInfo.visibility = View.GONE
                         binding.subscribeCard.visibility = View.GONE
-                        binding.progressBar.visibility = View.VISIBLE
-                        binding.textViewError.visibility = View.GONE
+                        binding.progressUser.visibility = View.VISIBLE
+                        binding.textUserError.visibility = View.GONE
                     }
                 }
             }

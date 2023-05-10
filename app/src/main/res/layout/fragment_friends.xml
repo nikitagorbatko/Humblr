@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/background_color"
     tools:context=".ui.friends.FriendsFragment">
 
 
@@ -34,7 +35,7 @@
         tools:listitem="@layout/friend_item" />
 
     <ProgressBar
-        android:id="@+id/progress_bar_friends"
+        android:id="@+id/progress_favorites"
         style="?android:attr/progressBarStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -45,11 +46,14 @@
         app:layout_constraintTop_toBottomOf="@+id/toolbar_friends" />
 
     <TextView
-        android:id="@+id/text_view_friends_error"
+        android:id="@+id/text_favorites_error"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Error"
-        android:textColor="@color/black"
+        android:gravity="center"
+        android:text="@string/error_text"
+        android:textColor="@color/error_text_color"
+        android:textSize="20sp"
+        android:textStyle="bold"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="@+id/recycler_friends"
         app:layout_constraintEnd_toEndOf="parent"

@@ -1,13 +1,13 @@
 package com.nikitagorbatko.humblr.ui.friends
 
 import androidx.lifecycle.ViewModel
-import com.nikitagorbatko.humblr.api.dto.friends.FriendDTO
+import com.nikitagorbatko.humblr.api.pojos.FriendDto
 import com.nikitagorbatko.humblr.data.friends.FriendsRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 
 class FriendsViewModel(private val repository: FriendsRepository) : ViewModel() {
-    private val _friends = MutableStateFlow<List<FriendDTO>>(emptyList())
+    private val _friends = MutableStateFlow<List<FriendDto>>(emptyList())
     val friends = _friends.asStateFlow()
 
     private val _state = MutableStateFlow(State.LOADING)

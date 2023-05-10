@@ -73,7 +73,7 @@ class SubredditsFragment : Fragment() {
             }
         )
 
-        binding.recyclerViewSubreddits.adapter =
+        binding.recyclerSubreddits.adapter =
             adapter.withLoadStateFooter(CommonLoadStateAdapter())
 
         viewModel.getNewSubreddits().onEach {
@@ -83,9 +83,14 @@ class SubredditsFragment : Fragment() {
         viewLifecycleOwner.lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 adapter.loadStateFlow.collect {
-                    //binding.swipeRefreshLayout.isRefreshing = it.source.refresh is LoadState.Loading
-                    binding.progressBarSubreddits.visibility =
+                    binding.progressSubreddits.visibility =
                         if (it.source.refresh is LoadState.Loading) {
+                            View.VISIBLE
+                        } else {
+                            View.GONE
+                        }
+                    binding.textSubredditsError.visibility =
+                        if (it.source.refresh is LoadState.Error) {
                             View.VISIBLE
                         } else {
                             View.GONE
@@ -112,30 +117,7 @@ class SubredditsFragment : Fragment() {
 
         binding.tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab?) {
-                binding.searchEditText.setText("")
-
-                //review
-                val inputMethodManager: InputMethodManager =
-                    getSystemService(
-                        requireContext(),
-                        InputMethodManager::class.java
-                    ) as InputMethodManager
-                if (inputMethodManager.isAcceptingText) {
-                    inputMethodManager.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 1)
-                }
-
-                when (tab?.position) {
-                    0 -> {
-                        viewModel.getNewSubreddits().onEach {
-                            adapter.submitData(it)
-                        }.launchIn(viewLifecycleOwner.lifecycleScope)
-                    }
-                    else -> {
-                        viewModel.getPopularSubreddits().onEach {
-                            adapter.submitData(it)
-                        }.launchIn(viewLifecycleOwner.lifecycleScope)
-                    }
-                }
+                onTabChecked(tab)
             }
 
             override fun onTabUnselected(tab: TabLayout.Tab?) {
@@ -144,6 +126,33 @@ class SubredditsFragment : Fragment() {
 
             override fun onTabReselected(tab: TabLayout.Tab?) {}
         })
+    }
+
+    private fun onTabChecked(tab: TabLayout.Tab?) {
+        binding.searchEditText.setText("")
+
+        //review
+        val inputMethodManager: InputMethodManager =
+            getSystemService(
+                requireContext(),
+                InputMethodManager::class.java
+            ) as InputMethodManager
+        if (inputMethodManager.isAcceptingText) {
+            inputMethodManager.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 1)
+        }
+
+        when (tab?.position) {
+            0 -> {
+                viewModel.getNewSubreddits().onEach {
+                    adapter.submitData(it)
+                }.launchIn(viewLifecycleOwner.lifecycleScope)
+            }
+            else -> {
+                viewModel.getPopularSubreddits().onEach {
+                    adapter.submitData(it)
+                }.launchIn(viewLifecycleOwner.lifecycleScope)
+            }
+        }
     }
 
     private fun getQuerySubreddits(query: String) {

@@ -1,10 +1,23 @@
-package com.nikitagorbatko.humblr.api.dto.post
+package com.nikitagorbatko.humblr.api.pojos
 
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
-data class PostDTO(
+data class ChildPostDto(
+    @Json(name = "kind") val kind: String,
+    @Json(name = "data") val data: PostDto
+)
+
+@JsonClass(generateAdapter = true)
+data class PostDataDto(
+    @Json(name = "after")  val after: String?,
+    @Json(name = "before")  val before: String?,
+    @Json(name = "children")  val children: List<ChildPostDto>
+)
+
+@JsonClass(generateAdapter = true)
+data class PostDto(
     @Json(name = "subreddit")  val subreddit: String?,
     @Json(name = "subreddit_name_prefixed")  val subredditPrefixed: String?,
     @Json(name = "author")  val author: String?,
@@ -25,4 +38,10 @@ data class PostDTO(
     @Json(name = "thumbnail_height")  val thumbnail_height: Int?,
     @Json(name = "thumbnail_width")  val thumbnail_width: Int?,
     @Json(name = "likes")  var likes: Boolean?
+)
+
+@JsonClass(generateAdapter = true)
+data class PostResponseDto(
+    @Json(name = "kind")val kind: String,
+    @Json(name = "data")val data: PostDataDto
 )

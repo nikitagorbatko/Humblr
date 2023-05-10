@@ -1,11 +1,11 @@
 package com.nikitagorbatko.humblr.domain
 
-import com.nikitagorbatko.humblr.api.RedditService
+import com.nikitagorbatko.humblr.api.services.AddFriendService
 import com.squareup.moshi.Json
 import okhttp3.MediaType
 import okhttp3.RequestBody
 
-class FriendUserUseCase(private val service: RedditService, private val token: String) {
+class FriendUserUseCase(private val service: AddFriendService, private val token: String) {
 
     suspend fun execute(name: String) {
         try {

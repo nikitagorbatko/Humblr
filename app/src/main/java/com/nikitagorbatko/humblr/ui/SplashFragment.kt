@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.nikitagorbatko.humblr.data.preferences.SharedPreferencesRepository
 import com.nikitagorbatko.humblr.databinding.FragmentSplashBinding
@@ -32,11 +33,11 @@ class SplashFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        CoroutineScope(Dispatchers.Main).launch {
+        viewLifecycleOwner.lifecycleScope.launch {
             delay(500)
             val a = repository.getToken()
 
-            Log.d("Tag token", a?: "")
+            Log.d("Tag token", a ?: "")
             when {
                 repository.getIsFirstStart() -> {
                     val action = SplashFragmentDirections.actionSplashFragmentToViewPagerFragment()

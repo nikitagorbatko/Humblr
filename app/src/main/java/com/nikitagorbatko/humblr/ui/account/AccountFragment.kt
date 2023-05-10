@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
@@ -42,7 +43,7 @@ class AccountFragment : Fragment() {
             showLogoutDialog()
         }
 
-        viewModel.viewModelScope.launch {
+        viewLifecycleOwner.lifecycleScope.launch {
             viewModel.getUserInfo()
             viewModel.account.collect {
                 if (it != null) {
@@ -51,8 +52,8 @@ class AccountFragment : Fragment() {
                         .transition(DrawableTransitionOptions.withCrossFade())
                         .centerCrop()
                         .error(R.drawable.ic_avatar_frog)
-                        .into(binding.imageViewAvatar)
-                    binding.textViewAccountName.text = it.name
+                        .into(binding.imageAvatar)
+                    binding.textAccountName.text = it.name
 
                     binding.buttonFriends.setOnClickListener {
                         val action =
@@ -63,32 +64,32 @@ class AccountFragment : Fragment() {
             }
         }
 
-        viewModel.viewModelScope.launch {
+        viewLifecycleOwner.lifecycleScope.launch {
             viewModel.state.collect {
                 when (it) {
                     AccountViewModel.State.PRESENT -> {
-                        binding.cardViewInfo.visibility = View.VISIBLE
+                        binding.cardInfo.visibility = View.VISIBLE
                         binding.buttonFriends.visibility = View.VISIBLE
                         binding.buttonLogout.visibility = View.VISIBLE
                         binding.buttonClearSaved.visibility = View.VISIBLE
-                        binding.progressBarAccount.visibility = View.GONE
-                        binding.textVewAccountError.visibility = View.GONE
+                        binding.progressAccount.visibility = View.GONE
+                        binding.textAccountError.visibility = View.GONE
                     }
                     AccountViewModel.State.ERROR -> {
-                        binding.cardViewInfo.visibility = View.GONE
+                        binding.cardInfo.visibility = View.GONE
                         binding.buttonFriends.visibility = View.GONE
                         binding.buttonLogout.visibility = View.GONE
                         binding.buttonClearSaved.visibility = View.GONE
-                        binding.progressBarAccount.visibility = View.GONE
-                        binding.textVewAccountError.visibility = View.VISIBLE
+                        binding.progressAccount.visibility = View.GONE
+                        binding.textAccountError.visibility = View.VISIBLE
                     }
                     AccountViewModel.State.LOADING -> {
-                        binding.cardViewInfo.visibility = View.GONE
+                        binding.cardInfo.visibility = View.GONE
                         binding.buttonFriends.visibility = View.GONE
                         binding.buttonLogout.visibility = View.GONE
                         binding.buttonClearSaved.visibility = View.GONE
-                        binding.progressBarAccount.visibility = View.VISIBLE
-                        binding.textVewAccountError.visibility = View.GONE
+                        binding.progressAccount.visibility = View.VISIBLE
+                        binding.textAccountError.visibility = View.GONE
                     }
                 }
             }

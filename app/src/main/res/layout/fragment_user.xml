@@ -14,11 +14,11 @@
         android:background="@color/main"
         android:minHeight="?attr/actionBarSize"
         android:theme="?attr/actionBarTheme"
-        app:titleTextColor="@color/white"
-        app:navigationIcon="@drawable/ic_back"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:navigationIcon="@drawable/ic_back"
+        app:titleTextColor="@color/white" />
 
     <androidx.cardview.widget.CardView
         android:id="@+id/card_view_user_info"
@@ -69,7 +69,7 @@
                 app:layout_constraintTop_toTopOf="parent">
 
                 <ImageView
-                    android:id="@+id/image_view_avatar"
+                    android:id="@+id/image_avatar"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     tools:src="@tools:sample/avatars" />
@@ -187,7 +187,7 @@
     </androidx.cardview.widget.CardView>
 
     <ProgressBar
-        android:id="@+id/progress_bar"
+        android:id="@+id/progress_user"
         style="?android:attr/progressBarStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -198,21 +198,22 @@
         app:layout_constraintTop_toBottomOf="@+id/toolbar_user" />
 
     <TextView
-        android:id="@+id/text_view_error"
+        android:id="@+id/text_user_error"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:visibility="gone"
-        android:text="Error"
+        android:gravity="center"
+        android:text="@string/error_text"
+        android:textColor="@color/error_text_color"
+        android:textSize="20sp"
         android:textStyle="bold"
-        android:textSize="24sp"
-        android:textColor="@color/main"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toolbar_user" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recycler_view_user_comments"
+        android:id="@+id/recycler_user_comments"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginStart="16dp"

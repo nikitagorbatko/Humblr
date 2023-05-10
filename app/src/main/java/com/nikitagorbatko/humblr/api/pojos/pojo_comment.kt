@@ -1,5 +1,4 @@
-package com.nikitagorbatko.humblr.api.dto
-
+package com.nikitagorbatko.humblr.api.pojos
 
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
@@ -7,32 +6,32 @@ import com.squareup.moshi.JsonClass
 @JsonClass(generateAdapter = true)
 data class CommentDto(
     @Json(name = "kind") var kind: String?,
-    @Json(name = "data") var data: CommentData?
+    @Json(name = "data") var data: CommentDataDto?
 )
 
 @JsonClass(generateAdapter = true)
-data class CommentsResponse(
+data class CommentsResponseDto(
     @Json(name = "kind") var kind: String?,
-    @Json(name = "data") var data: Data
+    @Json(name = "data") var dataDto: DataDto?
 )
 
 @JsonClass(generateAdapter = true)
-data class Data(
+data class DataDto(
     @Json(name = "after") var after: String?,
     @Json(name = "dist") var dist: String?,
     @Json(name = "modhash") var modhash: String?,
-    @Json(name = "geo_filter") var geoFilter: String?,
-    @Json(name = "children") var children: List<CommentDto>,
+    //@Json(name = "geo_filter", ignore = true) var geoFilter: String? = null,
+    @Json(name = "children") var children: List<CommentDto>?,
     @Json(name = "before") var before: String?
 )
 
 @JsonClass(generateAdapter = true)
-data class Gildings(
+data class GildingsDto(
     @Json(name = "kind") var kind: String?,
 )
 
 @JsonClass(generateAdapter = true)
-data class CommentData(
+data class CommentDataDto(
     @Json(name = "subreddit_id") var subredditId: String?,
     @Json(name = "approved_at_utc") var approvedAtUtc: String?,
     @Json(name = "author_is_blocked") var authorIsBlocked: Boolean?,
@@ -47,8 +46,8 @@ data class CommentData(
     @Json(name = "subreddit") var subreddit: String?,
     @Json(name = "link_author") var linkAuthor: String?,
     @Json(name = "likes") var likes: String?,
-    @Json(name = "replies") var replies: Any?,
-    @Json(ignore = true) var parsedReplies: CommentsResponse? = null,
+    @Json(name = "replies") var repliesDto: RepliesDto?,
+    @Json(ignore = true) var parsedReplies: CommentsResponseDto? = null,
     @Json(name = "user_reports") var userReports: List<String>?,
     @Json(name = "saved") var saved: Boolean?,
     @Json(name = "id") var id: String?,
@@ -80,7 +79,7 @@ data class CommentData(
     //@Json(name = "author_flair_richtext"           ) var authorFlairRichtext          : List<String>,
     @Json(name = "author_patreon_flair") var authorPatreonFlair: Boolean?,
     @Json(name = "body_html") var bodyHtml: String?,
-    @Json(name = "gildings") var gildings: Gildings?,
+    @Json(name = "gildings") var gildingsDto: GildingsDto?,
     @Json(name = "collapsed_reason") var collapsedReason: String?,
     @Json(name = "distinguished") var distinguished: String?,
     @Json(name = "associated_award") var associatedAward: String?,
@@ -111,3 +110,10 @@ data class CommentData(
     @Json(name = "mod_note") var modNote: String?,
     @Json(name = "link_url") var linkUrl: String?
 )
+
+@JsonClass(generateAdapter = true)
+data class RepliesDto(
+    @Json(name = "kind") val kind: String?,
+    @Json(name = "data") val data: DataDto?
+)
+

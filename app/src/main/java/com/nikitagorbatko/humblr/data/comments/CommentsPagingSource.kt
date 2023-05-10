@@ -1,7 +1,7 @@
 //package com.nikitagorbatko.humblr.data.comments
 //
 //
-//import com.nikitagorbatko.humblr.api.dto.CommentDto
+//import com.nikitagorbatko.humblr.api.pojos.CommentDto
 //import androidx.paging.PagingSource
 //import androidx.paging.PagingState
 //import com.nikitagorbatko.humblr.api.RedditService

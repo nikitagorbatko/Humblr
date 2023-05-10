@@ -26,7 +26,7 @@
 
     <string name="subscribe_title">Subscribe</string>
     <string name="unsubscribe_title">Unsubscribe</string>
-    <string name="error">Error</string>
+    <string name="error_text">No network connection</string>
 
     <string name="logout_warning_message">Are you sure you want to logout?</string>
     <string name="ok">Ok</string>
@@ -34,6 +34,11 @@
     <string name="comments">Comments</string>
     <string name="all">All</string>
     <string name="saved">Saved</string>
+    <string name="logout">Logout</string>
+    <string name="clear_saved">Clear saved</string>
+    <string name="friend_list">Friend list</string>
+
+
 
 
 

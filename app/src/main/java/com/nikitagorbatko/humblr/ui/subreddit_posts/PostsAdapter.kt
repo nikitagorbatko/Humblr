@@ -7,15 +7,13 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
-import com.nikitagorbatko.humblr.api.dto.post.ChildPostDTO
-import com.nikitagorbatko.humblr.api.dto.subreddit.ChildSubredditDTO
+import com.nikitagorbatko.humblr.api.pojos.ChildPostDto
 import com.nikitagorbatko.humblr.databinding.PostItemBinding
-import com.nikitagorbatko.humblr.databinding.SubredditItemBinding
 
 class PostsAdapter(
     private val onItemClick: (id: String) -> Unit
 ) :
-    PagingDataAdapter<ChildPostDTO, PostsAdapter.ViewHolder>(DiffUtilCallback()) {
+    PagingDataAdapter<ChildPostDto, PostsAdapter.ViewHolder>(DiffUtilCallback()) {
 
     inner class ViewHolder(val binding: PostItemBinding) :
         RecyclerView.ViewHolder(binding.root)
@@ -35,27 +33,27 @@ class PostsAdapter(
             root.setOnClickListener {
                 post?.data?.id?.let { it1 -> onItemClick(it1) }
             }
-            textViewTitle.text = post?.data?.title
-            textViewName.text = post?.data?.author
-            textViewComments.text = post?.data?.num_comments.toString()
+            textPostTitle.text = post?.data?.title
+            textPostName.text = post?.data?.author
+            textPostComments.text = post?.data?.num_comments.toString()
             Glide.with(root)
                 .load(post?.data?.url)
                 .transition(DrawableTransitionOptions.withCrossFade())
                 .centerCrop()
-                .into(imageViewMain)
+                .into(imagePost)
         }
     }
 }
 
-class DiffUtilCallback : DiffUtil.ItemCallback<ChildPostDTO>() {
+class DiffUtilCallback : DiffUtil.ItemCallback<ChildPostDto>() {
 
-    override fun areItemsTheSame(oldItem: ChildPostDTO, newItem: ChildPostDTO): Boolean {
+    override fun areItemsTheSame(oldItem: ChildPostDto, newItem: ChildPostDto): Boolean {
         return oldItem.data.id == oldItem.data.id
     }
 
     override fun areContentsTheSame(
-        oldItem: ChildPostDTO,
-        newItem: ChildPostDTO
+        oldItem: ChildPostDto,
+        newItem: ChildPostDto
     ): Boolean {
         return oldItem.data.body == newItem.data.body
     }

@@ -1,8 +1,7 @@
 package com.nikitagorbatko.humblr.ui.account
 
 import androidx.lifecycle.ViewModel
-import com.nikitagorbatko.humblr.api.dto.user.ChildUserDTO
-import com.nikitagorbatko.humblr.api.dto.user.UserDTO
+import com.nikitagorbatko.humblr.api.pojos.UserDto
 import com.nikitagorbatko.humblr.data.preferences.SharedPreferencesRepository
 import com.nikitagorbatko.humblr.domain.GetAccountUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -12,7 +11,7 @@ class AccountViewModel(
     private val getAccountUseCase: GetAccountUseCase,
     private val sharedPreferencesRepository: SharedPreferencesRepository
 ) : ViewModel() {
-    private val _account = MutableStateFlow<UserDTO?>(null)
+    private val _account = MutableStateFlow<UserDto?>(null)
     val account = _account.asStateFlow()
 
     private val _state = MutableStateFlow(State.LOADING)

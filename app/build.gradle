@@ -40,6 +40,10 @@ android {
 }
 
 dependencies {
+
+    //tree view
+//    implementation 'vn.gapowork.android:tree-view:1.0.0-alpha01'
+
     //for tree view
 //    implementation "com.github.lisawray.groupie:groupie-viewbinding:1.0.0"
 
@@ -82,6 +86,7 @@ dependencies {
     implementation 'com.squareup.moshi:moshi:1.14.0'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     kapt 'com.squareup.moshi:moshi-kotlin-codegen:1.14.0'
+    implementation "com.squareup.moshi:moshi-adapters:1.14.0"
 
 //    //paging library
 //    implementation 'androidx.paging:paging-compose:1.0.0-alpha18'

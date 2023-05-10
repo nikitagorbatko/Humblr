@@ -4,12 +4,13 @@ package com.nikitagorbatko.humblr.data.user_comments//package com.nikitagorbatko
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.nikitagorbatko.humblr.api.RedditService
-import com.nikitagorbatko.humblr.api.dto.CommentDto
+import com.nikitagorbatko.humblr.api.pojos.CommentDto
+import com.nikitagorbatko.humblr.api.services.UserCommentsService
 
 class UserCommentsPagingSource(
     private val name: String,
     private val token: String,
-    private val service: RedditService,
+    private val service: UserCommentsService,
 ) : PagingSource<String, CommentDto>() {
 
     override suspend fun load(params: LoadParams<String>): LoadResult<String, CommentDto> {
@@ -20,9 +21,9 @@ class UserCommentsPagingSource(
                 userName = name,
                 accessToken = token,
                 after = after,
-            ).data
+            ).dataDto
         }.fold(onSuccess = {
-            LoadResult.Page(it.children, it.before, it.after)
+            LoadResult.Page(it?.children!!, it.before, it.after)
         }, onFailure = {
             LoadResult.Error(it)
         })

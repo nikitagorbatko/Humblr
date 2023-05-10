@@ -5,11 +5,8 @@ import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.nikitagorbatko.humblr.api.dto.CommentDto
-import com.nikitagorbatko.humblr.api.dto.CommentsResponse
+import com.nikitagorbatko.humblr.api.pojos.CommentDto
 import com.nikitagorbatko.humblr.databinding.TestCommentItemBinding
-import com.nikitagorbatko.humblr.ui.subreddits.DiffUtilCallback
-import com.nikitagorbatko.humblr.ui.subreddits.SubredditsAdapter
 
 
 class UserCommentsAdapter(
@@ -33,7 +30,7 @@ class UserCommentsAdapter(
         //post.data.
 
         with(holder.binding) {
-            textView.text = comment?.data?.body + "\n\n"
+//            textView.text = comment?.data?.body + "\n\n"
             root.setOnClickListener {
                 comment?.data?.author?.let { it1 -> onItemClick(it1) }
             }

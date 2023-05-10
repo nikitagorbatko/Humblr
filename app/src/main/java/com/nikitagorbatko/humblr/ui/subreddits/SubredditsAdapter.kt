@@ -7,7 +7,7 @@ import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.nikitagorbatko.humblr.R
-import com.nikitagorbatko.humblr.api.dto.subreddit.ChildSubredditDTO
+import com.nikitagorbatko.humblr.api.pojos.ChildSubredditDto
 import com.nikitagorbatko.humblr.databinding.SubredditItemBinding
 
 class SubredditsAdapter(
@@ -15,7 +15,7 @@ class SubredditsAdapter(
     private val onItemClick: (displayName: String) -> Unit,
     private val onAddClick: (subscribed: Boolean, name: String) -> Unit
 ) :
-    PagingDataAdapter<ChildSubredditDTO, SubredditsAdapter.ViewHolder>(DiffUtilCallback()) {
+    PagingDataAdapter<ChildSubredditDto, SubredditsAdapter.ViewHolder>(DiffUtilCallback()) {
     private val subscribedImage = context.resources.getDrawable(R.drawable.ic_added_person)
     private val addPersonImage = context.resources.getDrawable(R.drawable.ic_add_person)
     private val subscribedBackground =
@@ -39,21 +39,21 @@ class SubredditsAdapter(
             root.setOnClickListener {
                 subreddit?.data?.displayName?.let { onItemClick(it) }
             }
-            textViewTitle.text = subreddit?.data?.title
+            textPostTitle.text = subreddit?.data?.title
             val subscribed = subreddit?.data?.subscribed == true
-            imageViewAddPerson.setImageDrawable(
+            imageAddPerson.setImageDrawable(
                 if (subscribed) {
                     subscribedImage
                 } else {
                     addPersonImage
                 }
             )
-            textViewTitle.background = if (subscribed) {
+            textPostTitle.background = if (subscribed) {
                 subscribedBackground
             } else {
                 unsubscribedBackground
             }
-            addClickArea.setOnClickListener {
+            frameClick.setOnClickListener {
                 subreddit?.data?.subscribed = !subscribed
                 notifyItemChanged(position)
                 onAddClick(subscribed, subreddit?.data?.name ?: "")
@@ -67,15 +67,15 @@ class SubredditsAdapter(
     }
 }
 
-class DiffUtilCallback : DiffUtil.ItemCallback<ChildSubredditDTO>() {
+class DiffUtilCallback : DiffUtil.ItemCallback<ChildSubredditDto>() {
 
-    override fun areItemsTheSame(oldItem: ChildSubredditDTO, newItem: ChildSubredditDTO): Boolean {
+    override fun areItemsTheSame(oldItem: ChildSubredditDto, newItem: ChildSubredditDto): Boolean {
         return oldItem.data.subscribed == oldItem.data.subscribed
     }
 
     override fun areContentsTheSame(
-        oldItem: ChildSubredditDTO,
-        newItem: ChildSubredditDTO
+        oldItem: ChildSubredditDto,
+        newItem: ChildSubredditDto
     ): Boolean {
         return oldItem.data.name == newItem.data.name
     }

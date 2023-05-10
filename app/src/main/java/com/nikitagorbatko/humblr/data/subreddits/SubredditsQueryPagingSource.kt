@@ -2,16 +2,16 @@ package com.nikitagorbatko.humblr.data.subreddits
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
-import com.nikitagorbatko.humblr.api.RedditService
-import com.nikitagorbatko.humblr.api.dto.subreddit.ChildSubredditDTO
+import com.nikitagorbatko.humblr.api.pojos.ChildSubredditDto
+import com.nikitagorbatko.humblr.api.services.QuerySubredditsService
 
 class SubredditsQueryPagingSource(
     private val token: String,
-    private val service: RedditService,
+    private val service: QuerySubredditsService,
     private val query: String
-) : PagingSource<String, ChildSubredditDTO>() {
+) : PagingSource<String, ChildSubredditDto>() {
 
-    override suspend fun load(params: LoadParams<String>): LoadResult<String, ChildSubredditDTO> {
+    override suspend fun load(params: LoadParams<String>): LoadResult<String, ChildSubredditDto> {
         val after = params.key ?: EMPTY_AFTER
 
         return kotlin.runCatching {
@@ -23,7 +23,7 @@ class SubredditsQueryPagingSource(
         })
     }
 
-    override fun getRefreshKey(state: PagingState<String, ChildSubredditDTO>) = EMPTY_AFTER
+    override fun getRefreshKey(state: PagingState<String, ChildSubredditDto>) = EMPTY_AFTER
 
     companion object {
         private const val EMPTY_AFTER = ""

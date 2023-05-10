@@ -36,7 +36,7 @@
     </LinearLayout>
 
     <ImageView
-        android:id="@+id/image_view_logo"
+        android:id="@+id/image_logo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/ic_login_frog"
@@ -47,13 +47,13 @@
         app:layout_constraintVertical_bias="0.1" />
 
     <ImageView
-        android:id="@+id/image_view_humblr"
+        android:id="@+id/image_humblr"
         android:layout_width="230dp"
         android:layout_height="60dp"
         app:layout_constraintBottom_toBottomOf="@+id/linearLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/image_view_logo"
+        app:layout_constraintTop_toBottomOf="@+id/image_logo"
         app:layout_constraintVertical_bias="0.3"
         app:srcCompat="@drawable/ic_humblr" />
 
@@ -63,9 +63,9 @@
         android:layout_height="60dp"
         android:text="@string/button_login"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/image_view_humblr"
-        app:layout_constraintStart_toStartOf="@+id/image_view_humblr"
-        app:layout_constraintTop_toBottomOf="@+id/image_view_humblr" />
+        app:layout_constraintEnd_toEndOf="@+id/image_humblr"
+        app:layout_constraintStart_toStartOf="@+id/image_humblr"
+        app:layout_constraintTop_toBottomOf="@+id/image_humblr" />
 
     <TextView
         android:id="@+id/text_view_text"
@@ -77,7 +77,7 @@
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/image_view_humblr" />
+        app:layout_constraintTop_toBottomOf="@+id/image_humblr" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

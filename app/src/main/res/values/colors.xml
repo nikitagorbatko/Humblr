@@ -18,7 +18,6 @@
     <color name="text_background">#FFDCD3F6</color>
     <color name="text_background_subscribed">#FFF6DAD9</color>
 
-
-
+    <color name="error_text_color">#EF5350</color>
 
 </resources>
