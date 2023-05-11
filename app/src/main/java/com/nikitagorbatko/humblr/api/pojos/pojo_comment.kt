@@ -46,7 +46,7 @@ data class CommentDataDto(
     @Json(name = "subreddit") var subreddit: String?,
     @Json(name = "link_author") var linkAuthor: String?,
     @Json(name = "likes") var likes: String?,
-    @Json(name = "replies") var repliesDto: RepliesDto?,
+    @Json(name = "replies") var repliesDto: Any?,
     @Json(ignore = true) var parsedReplies: CommentsResponseDto? = null,
     @Json(name = "user_reports") var userReports: List<String>?,
     @Json(name = "saved") var saved: Boolean?,

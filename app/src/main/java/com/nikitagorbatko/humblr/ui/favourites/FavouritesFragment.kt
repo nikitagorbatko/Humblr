@@ -4,21 +4,17 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import androidx.lifecycle.viewModelScope
-import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
 import androidx.paging.PagingData
-import com.nikitagorbatko.humblr.R
 import com.nikitagorbatko.humblr.databinding.FragmentFavouritesBinding
 import com.nikitagorbatko.humblr.ui.CommonLoadStateAdapter
 import com.nikitagorbatko.humblr.ui.subreddits.SubredditsAdapter
-import com.nikitagorbatko.humblr.ui.subreddits.SubredditsFragmentDirections
 import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.merge
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -29,7 +25,13 @@ class FavouritesFragment : Fragment() {
     private val binding get() = _binding!!
 
     private val viewModel: FavouritesViewModel by viewModel()
-    private lateinit var adapter: SubredditsAdapter
+    private lateinit var subredditsAdapter: SubredditsAdapter
+    private lateinit var commentsAdapter: CommentsAdapter
+
+    private var firstGroupChipType = FirstGroupChip.SUBREDDITS
+    private var secondGroupChipType = SecondGroupChip.ALL
+
+    private var currentAdapterType = AdapterType.SUB_ADAPTER
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -43,48 +45,13 @@ class FavouritesFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        initializeAdapters()
         bind()
         observe()
     }
 
-    private fun bind() {
-        binding.firstGroup.setOnCheckedStateChangeListener { group, checkedIds ->
-            when (checkedIds) {
-                //R.id.ch
-            }
-        }
-        binding.chipAll.setOnClickListener {
-            adapter.submitData(lifecycle, PagingData.empty())
-            viewModel.getAllSubreddits().onEach {
-                adapter.submitData(it)
-            }.launchIn(viewLifecycleOwner.lifecycleScope)
-        }
-        binding.chipSaved.setOnClickListener {
-            adapter.submitData(lifecycle, PagingData.empty())
-            viewModel.getFavouriteSubreddits().onEach {
-                adapter.submitData(it)
-            }.launchIn(viewLifecycleOwner.lifecycleScope)
-        }
-//        binding.secondGroup.setOnCheckedStateChangeListener { group, checkedIds ->
-//            when (checkedIds) {
-//                R.id.chip_all -> {
-//                    adapter.submitData(lifecycle, PagingData.empty())
-//                    viewModel.getAllSubreddits().onEach {
-//                        adapter.submitData(it)
-//                    }.launchIn(viewLifecycleOwner.lifecycleScope)
-//                }
-//                R.id.ship_saved -> {
-//                    adapter.submitData(lifecycle, PagingData.empty())
-//                    viewModel.getFavouriteSubreddits().onEach {
-//                        adapter.submitData(it)
-//                    }.launchIn(viewLifecycleOwner.lifecycleScope)
-//                }
-//            }
-//        }
-    }
-
-    private fun observe() {
-        adapter = SubredditsAdapter(
+    private fun initializeAdapters() {
+        subredditsAdapter = SubredditsAdapter(
             context = requireContext(),
             onItemClick = {
 //                val action =
@@ -105,16 +72,100 @@ class FavouritesFragment : Fragment() {
             }
         )
 
-        binding.recyclerUniversal.adapter =
-            adapter.withLoadStateFooter(CommonLoadStateAdapter())
+        commentsAdapter = CommentsAdapter {
 
+        }
+    }
+
+    private fun bind() {
+        binding.recyclerUniversal.adapter =
+            subredditsAdapter.withLoadStateFooter(CommonLoadStateAdapter())
+
+        binding.chipComments.setOnClickListener {
+            if (firstGroupChipType != FirstGroupChip.COMMENTS) {
+                firstGroupChipType = FirstGroupChip.COMMENTS
+                onChipClick()
+            }
+        }
+
+        binding.chipSubreddits.setOnClickListener {
+            if (firstGroupChipType != FirstGroupChip.SUBREDDITS) {
+                firstGroupChipType = FirstGroupChip.SUBREDDITS
+                onChipClick()
+            }
+        }
+
+        binding.chipAll.setOnClickListener {
+            if (secondGroupChipType != SecondGroupChip.ALL) {
+                secondGroupChipType = SecondGroupChip.ALL
+                onChipClick()
+            }
+        }
+
+        binding.chipSaved.setOnClickListener {
+            if (secondGroupChipType != SecondGroupChip.SAVED) {
+                secondGroupChipType = SecondGroupChip.SAVED
+                onChipClick()
+            }
+        }
+    }
+
+    private fun onChipClick() {
+        subredditsAdapter.submitData(lifecycle, PagingData.empty())
+        commentsAdapter.submitData(lifecycle, PagingData.empty())
+        when {
+            firstGroupChipType == FirstGroupChip.SUBREDDITS && secondGroupChipType == SecondGroupChip.ALL -> {
+                checkChangeAdapter(AdapterType.SUB_ADAPTER)
+                viewModel.getAllSubreddits().onEach {
+                    subredditsAdapter.submitData(it)
+                }.launchIn(viewLifecycleOwner.lifecycleScope)
+            }
+            firstGroupChipType == FirstGroupChip.SUBREDDITS && secondGroupChipType == SecondGroupChip.SAVED -> {
+                checkChangeAdapter(AdapterType.SUB_ADAPTER)
+                viewModel.getFavouriteSubreddits().onEach {
+                    subredditsAdapter.submitData(it)
+                }.launchIn(viewLifecycleOwner.lifecycleScope)
+            }
+            firstGroupChipType == FirstGroupChip.COMMENTS && secondGroupChipType == SecondGroupChip.ALL -> {
+                checkChangeAdapter(AdapterType.SUB_ADAPTER)
+                viewModel.getAllSubreddits().onEach {
+                    subredditsAdapter.submitData(it)
+                }.launchIn(viewLifecycleOwner.lifecycleScope)
+            }
+            firstGroupChipType == FirstGroupChip.COMMENTS && secondGroupChipType == SecondGroupChip.SAVED -> {
+                checkChangeAdapter(AdapterType.COMM_ADAPTER)
+                viewModel.getSavedComments().onEach {
+                    commentsAdapter.submitData(it)
+                }.launchIn(viewLifecycleOwner.lifecycleScope)
+            }
+        }
+    }
+
+    private fun checkChangeAdapter(neededAdapter: AdapterType) {
+        if (currentAdapterType != neededAdapter) {
+            when (neededAdapter) {
+                AdapterType.COMM_ADAPTER -> {
+                    binding.recyclerUniversal.adapter =
+                        commentsAdapter.withLoadStateFooter(CommonLoadStateAdapter())
+                    currentAdapterType = AdapterType.COMM_ADAPTER
+                }
+                AdapterType.SUB_ADAPTER -> {
+                    binding.recyclerUniversal.adapter =
+                        subredditsAdapter.withLoadStateFooter(CommonLoadStateAdapter())
+                    currentAdapterType = AdapterType.SUB_ADAPTER
+                }
+            }
+        }
+    }
+
+    private fun observe() {
         viewModel.getAllSubreddits().onEach {
-            adapter.submitData(it)
+            subredditsAdapter.submitData(it)
         }.launchIn(viewLifecycleOwner.lifecycleScope)
 
         viewLifecycleOwner.lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                adapter.loadStateFlow.collect {
+                merge(subredditsAdapter.loadStateFlow, commentsAdapter.loadStateFlow).collect {
                     binding.progressFavorites.visibility =
                         if (it.source.refresh is LoadState.Loading) {
                             View.VISIBLE
@@ -135,5 +186,17 @@ class FavouritesFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    private enum class FirstGroupChip {
+        SUBREDDITS, COMMENTS
+    }
+
+    private enum class SecondGroupChip {
+        ALL, SAVED
+    }
+
+    private enum class AdapterType {
+        SUB_ADAPTER, COMM_ADAPTER
     }
 }

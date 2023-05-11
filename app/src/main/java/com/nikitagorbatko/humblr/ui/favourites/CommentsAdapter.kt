@@ -1,17 +1,16 @@
-package com.nikitagorbatko.humblr.ui.post
+package com.nikitagorbatko.humblr.ui.favourites
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.nikitagorbatko.humblr.api.pojos.CommentDto
 import com.nikitagorbatko.humblr.databinding.TestCommentItemBinding
 
-
 class CommentsAdapter(
     private val onItemClick: (author: String) -> Unit
-) : RecyclerView.Adapter<CommentsAdapter.ViewHolder>() {
-    private val commentsList = mutableListOf<CommentDto>()
+) : PagingDataAdapter<CommentDto, CommentsAdapter.ViewHolder>(DiffUtilCallback()) {
 
     inner class ViewHolder(val binding: TestCommentItemBinding) :
         RecyclerView.ViewHolder(binding.root)
@@ -22,23 +21,15 @@ class CommentsAdapter(
         return ViewHolder(binding)
     }
 
-    override fun getItemCount() = commentsList.size
-
-    fun addAll(comments: List<CommentDto>) {
-        commentsList.addAll(comments)
-        notifyDataSetChanged()
-    }
-
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val comment = commentsList[position]
+        val comment = getItem(position)
 
         //post.data.
 
         with(holder.binding) {
-            textView.text = comment.data?.body//repliesDto?.data?.children?.size.toString()
-
+            textView.text = comment?.data?.body + "\n\n"
             root.setOnClickListener {
-                //comment.data?.author?.let { it1 -> onItemClick(it1) }
+                comment?.data?.author?.let { it1 -> onItemClick(it1) }
             }
 //            root.setOnClickListener {
 //                post?.data?.id?.let { it1 -> onItemClick(it1) }
@@ -53,18 +44,18 @@ class CommentsAdapter(
 //                .into(imageViewMain)
         }
     }
-}
 
-class DiffUtilCallback : DiffUtil.ItemCallback<CommentDto>() {
+    class DiffUtilCallback : DiffUtil.ItemCallback<CommentDto>() {
 
-    override fun areItemsTheSame(oldItem: CommentDto, newItem: CommentDto): Boolean {
-        return oldItem.data?.id == oldItem.data?.id
-    }
+        override fun areItemsTheSame(oldItem: CommentDto, newItem: CommentDto): Boolean {
+            return oldItem.data?.id == oldItem.data?.id
+        }
 
-    override fun areContentsTheSame(
-        oldItem: CommentDto,
-        newItem: CommentDto
-    ): Boolean {
-        return oldItem.data?.numComments == newItem.data?.numComments
+        override fun areContentsTheSame(
+            oldItem: CommentDto,
+            newItem: CommentDto
+        ): Boolean {
+            return oldItem.data?.numComments == newItem.data?.numComments
+        }
     }
 }

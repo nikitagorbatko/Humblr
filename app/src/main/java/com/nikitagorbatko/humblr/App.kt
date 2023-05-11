@@ -6,10 +6,16 @@ import com.nikitagorbatko.humblr.data.comments.CommentsRepository
 import com.nikitagorbatko.humblr.data.comments.CommentsRepositoryImpl
 import com.nikitagorbatko.humblr.data.friends.FriendsRepository
 import com.nikitagorbatko.humblr.data.friends.FriendsRepositoryImpl
+import com.nikitagorbatko.humblr.data.name.NameRepository
+import com.nikitagorbatko.humblr.data.name.NameRepositoryImpl
 import com.nikitagorbatko.humblr.data.posts.PostsRepository
 import com.nikitagorbatko.humblr.data.posts.PostsRepositoryImpl
 import com.nikitagorbatko.humblr.data.preferences.SharedPreferencesRepository
 import com.nikitagorbatko.humblr.data.preferences.SharedPreferencesRepositoryImpl
+import com.nikitagorbatko.humblr.data.saved_comments.SavedCommentsRepository
+import com.nikitagorbatko.humblr.data.saved_comments.SavedCommentsRepositoryImpl
+import com.nikitagorbatko.humblr.data.saved_posts.SavedPostsRepository
+import com.nikitagorbatko.humblr.data.saved_posts.SavedPostsRepositoryImpl
 import com.nikitagorbatko.humblr.data.subreddits.SubredditsRepository
 import com.nikitagorbatko.humblr.data.subreddits.SubredditsRepositoryImpl
 import com.nikitagorbatko.humblr.data.user_comments.UserCommentsRepository
@@ -39,6 +45,8 @@ class App : Application() {
         single { get<RetrofitReddit>().popularSubredditsService() }
         single { get<RetrofitReddit>().postCommentsService() }
         single { get<RetrofitReddit>().querySubredditsService() }
+        single { get<RetrofitReddit>().savedCommentsService() }
+        single { get<RetrofitReddit>().savedPostsService() }
         single { get<RetrofitReddit>().subredditsService() }
         single { get<RetrofitReddit>().subscribeSubService() }
         single { get<RetrofitReddit>().unsubscribeSubService() }
@@ -76,6 +84,9 @@ class App : Application() {
         single<CommentsRepository> { CommentsRepositoryImpl(get()) }
         single<UserCommentsRepository> { UserCommentsRepositoryImpl(get(), get()) }
         single<FriendsRepository> { FriendsRepositoryImpl(get(), get()) }
+        single<SavedPostsRepository> { SavedPostsRepositoryImpl(get(), get(), get()) }
+        single<SavedCommentsRepository> { SavedCommentsRepositoryImpl(get(), get(), get()) }
+        single<NameRepository> { NameRepositoryImpl(get(), get()) }
     }
 
     override fun onCreate() {
@@ -90,5 +101,9 @@ class App : Application() {
                 uiModule
             )
         }
+    }
+
+    companion object {
+        const val NAME_PROPERTY = "name"
     }
 }

@@ -12,29 +12,32 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
         app:checkedChip="@id/chip_subreddits"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:selectionRequired="true"
         app:singleSelection="true">
 
         <com.google.android.material.chip.Chip
             android:id="@+id/chip_subreddits"
-            style="@style/Widget.MaterialComponents.Chip.Choice"
+            style="@style/Colors_Widget.MaterialComponents.Chip.Choice"
             android:layout_width="160dp"
             android:layout_height="wrap_content"
             android:text="@string/title_subreddits"
-            android:textAlignment="center" />
+            android:textAlignment="center"
+            android:textSize="18sp" />
 
         <com.google.android.material.chip.Chip
             android:id="@+id/chip_comments"
-            style="@style/Widget.MaterialComponents.Chip.Choice"
+            style="@style/Colors_Widget.MaterialComponents.Chip.Choice"
             android:layout_width="160dp"
             android:layout_height="wrap_content"
             android:text="@string/comments"
-            android:textAlignment="center" />
+            android:textAlignment="center"
+            android:textSize="18sp" />
 
     </com.google.android.material.chip.ChipGroup>
 
@@ -48,23 +51,26 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/first_group"
+        app:selectionRequired="true"
         app:singleSelection="true">
 
         <com.google.android.material.chip.Chip
             android:id="@+id/chip_all"
-            style="@style/Widget.MaterialComponents.Chip.Choice"
+            style="@style/Colors_Widget.MaterialComponents.Chip.Choice"
             android:layout_width="160dp"
             android:layout_height="wrap_content"
             android:text="@string/all"
-            android:textAlignment="center" />
+            android:textAlignment="center"
+            android:textSize="18sp" />
 
         <com.google.android.material.chip.Chip
             android:id="@+id/chip_saved"
-            style="@style/Widget.MaterialComponents.Chip.Choice"
+            style="@style/Colors_Widget.MaterialComponents.Chip.Choice"
             android:layout_width="160dp"
             android:layout_height="wrap_content"
             android:text="@string/saved"
-            android:textAlignment="center" />
+            android:textAlignment="center"
+            android:textSize="18sp" />
 
     </com.google.android.material.chip.ChipGroup>
 
@@ -76,8 +82,8 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        tools:listitem="@layout/subreddit_item"
-        app:layout_constraintTop_toBottomOf="@+id/second_group" />
+        app:layout_constraintTop_toBottomOf="@+id/second_group"
+        tools:listitem="@layout/subreddit_item" />
 
     <ProgressBar
         android:id="@+id/progress_favorites"

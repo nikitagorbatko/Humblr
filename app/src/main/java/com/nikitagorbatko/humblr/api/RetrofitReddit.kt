@@ -12,16 +12,6 @@ import retrofit2.create
 import retrofit2.http.*
 
 interface RedditService {
-
-
-    @GET("user/{username}/saved?limit=10&depth=1")
-    suspend fun getSavedPosts(
-        @Path("username") username: String,
-        @Query("after") after: String? = null,
-        @Query("before") before: String? = null,
-        @Header("Authorization") accessToken: String
-    ): PostResponseDto
-
     @GET("comments/{id}?limit=10&depth=1")
     suspend fun getCommentsOfPost(
         @Path("id") postID: String,
@@ -65,7 +55,7 @@ class RetrofitReddit {
 
     private val retrofit = retrofit2.Retrofit.Builder()
         .baseUrl(BASE_URL)
-        .addConverterFactory(MoshiConverterFactory.create(moshi).asLenient())
+        .addConverterFactory(MoshiConverterFactory.create())//moshi).asLenient()
         .build()
 
     fun addFriendService(): AddFriendService = retrofit.create(AddFriendService::class.java)
@@ -91,6 +81,11 @@ class RetrofitReddit {
 
     fun querySubredditsService(): QuerySubredditsService =
         retrofit.create(QuerySubredditsService::class.java)
+
+    fun savedCommentsService(): SavedCommentsService =
+        retrofit.create(SavedCommentsService::class.java)
+
+    fun savedPostsService(): SavedPostsService = retrofit.create(SavedPostsService::class.java)
 
     fun subredditsService(): SubredditsService = retrofit.create(SubredditsService::class.java)
 

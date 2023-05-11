@@ -56,14 +56,11 @@ dependencies {
     //implementation "com.github.curioustechizen.android-ago:library:1.3.4"
 
     //koin
-    implementation "io.insert-koin:koin-androidx-compose:3.4.0"
+    //implementation "io.insert-koin:koin-androidx-compose:3.4.0"
     implementation "io.insert-koin:koin-android:3.4.0"
 
     // Kotlin + coroutines
 //    implementation "androidx.work:work-runtime-ktx:2.8.1"
-
-    //compose glide
-//    implementation "com.github.bumptech.glide:compose:1.0.0-alpha.1"
 
     //Room
 //    implementation "androidx.room:room-runtime:2.6.0-alpha01"
@@ -87,19 +84,6 @@ dependencies {
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     kapt 'com.squareup.moshi:moshi-kotlin-codegen:1.14.0'
     implementation "com.squareup.moshi:moshi-adapters:1.14.0"
-
-//    //paging library
-//    implementation 'androidx.paging:paging-compose:1.0.0-alpha18'
-//    implementation("androidx.paging:paging-runtime:3.1.1")
-
-//    //Coil for images
-//    implementation("io.coil-kt:coil-compose:1.3.2")
-
-//    //pager for onboarding
-//    implementation 'com.google.accompanist:accompanist-pager:0.28.0'
-//
-//    //compose navigation
-//    implementation 'androidx.navigation:navigation-compose:2.6.0-alpha09'
 
     //view pager onboarding
     implementation 'androidx.viewpager2:viewpager2:1.0.0'

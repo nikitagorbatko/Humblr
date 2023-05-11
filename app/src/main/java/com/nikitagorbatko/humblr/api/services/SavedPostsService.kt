@@ -1,16 +1,17 @@
 package com.nikitagorbatko.humblr.api.services
 
-import com.nikitagorbatko.humblr.api.pojos.SubResponseDto
+import com.nikitagorbatko.humblr.api.pojos.PostResponseDto
 import retrofit2.http.GET
 import retrofit2.http.Header
+import retrofit2.http.Path
 import retrofit2.http.Query
 
-interface DefaultSubredditsService {
-    @GET("subreddits/default")
-    suspend fun getDefaultSubreddits(
+interface SavedPostsService {
+    @GET("user/{username}/saved?&depth=1")
+    suspend fun getSavedPosts(
+        @Path("username") userName: String,
         @Query("after") after: String? = null,
         @Query("before") before: String? = null,
-        //@Query("count") count: Int = 0,
         @Header("Authorization") accessToken: String
-    ): SubResponseDto
+    ): PostResponseDto
 }
