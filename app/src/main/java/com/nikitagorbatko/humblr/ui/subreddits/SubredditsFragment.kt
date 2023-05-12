@@ -80,18 +80,24 @@ class SubredditsFragment : Fragment() {
         viewLifecycleOwner.lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 adapter.loadStateFlow.collect {
-                    binding.progressSubreddits.visibility =
-                        if (it.source.refresh is LoadState.Loading) {
-                            View.VISIBLE
-                        } else {
-                            View.GONE
-                        }
-                    binding.textSubredditsError.visibility =
-                        if (it.source.refresh is LoadState.Error) {
-                            View.VISIBLE
-                        } else {
-                            View.GONE
-                        }
+                    if (it.source.refresh is LoadState.Loading) {
+                        binding.progressSubreddits.visibility = View.VISIBLE
+                        binding.searchInputLayout.visibility = View.GONE
+                        binding.tabLayout.visibility = View.GONE
+                    } else {
+                        binding.progressSubreddits.visibility = View.GONE
+                        binding.searchInputLayout.visibility = View.VISIBLE
+                        binding.tabLayout.visibility = View.VISIBLE
+                    }
+                    if (it.source.refresh is LoadState.Error) {
+                        binding.textSubredditsError.visibility = View.VISIBLE
+                        binding.searchInputLayout.visibility = View.GONE
+                        binding.tabLayout.visibility = View.GONE
+                    } else {
+                        binding.textSubredditsError.visibility = View.GONE
+                        binding.searchInputLayout.visibility = View.VISIBLE
+                        binding.tabLayout.visibility = View.VISIBLE
+                    }
                 }
             }
         }

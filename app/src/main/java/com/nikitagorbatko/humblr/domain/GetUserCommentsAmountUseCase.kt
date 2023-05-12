@@ -10,9 +10,11 @@ class GetUserCommentsAmountUseCase(
         var total = 0
         var after: String? = null
         do {
-            val comments = service.getUserComments(userName = username, accessToken = token)
-            total += comments.dataDto?.children?.size ?: 0
-            after = comments.dataDto?.after
+            try {
+                val comments = service.getUserComments(userName = username, accessToken = token)
+                total += comments.dataDto?.children?.size ?: 0
+                after = comments.dataDto?.after
+            } catch (_: Exception) { }
         } while (after != null)
         return total
     }

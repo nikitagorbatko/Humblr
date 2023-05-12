@@ -52,8 +52,6 @@ class FavouritesFragment : Fragment() {
         observe()
     }
 
-
-
     private fun initializeAdapters() {
         subredditsAdapter = SubredditsAdapter(
             context = requireContext(),
@@ -183,25 +181,29 @@ class FavouritesFragment : Fragment() {
     }
 
     private fun observe() {
-        viewModel.getAllSubreddits().onEach {
-            subredditsAdapter.submitData(it)
-        }.launchIn(viewLifecycleOwner.lifecycleScope)
+        onChipClick()
 
         viewLifecycleOwner.lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 merge(subredditsAdapter.loadStateFlow, commentsAdapter.loadStateFlow).collect {
-                    binding.progressFavorites.visibility =
-                        if (it.source.refresh is LoadState.Loading) {
-                            View.VISIBLE
-                        } else {
-                            View.GONE
-                        }
-                    binding.textFavoritesError.visibility =
-                        if (it.source.refresh is LoadState.Error) {
-                            View.VISIBLE
-                        } else {
-                            View.GONE
-                        }
+                    if (it.source.refresh is LoadState.Loading) {
+                        binding.firstGroup.visibility = View.GONE
+                        binding.secondGroup.visibility = View.GONE
+                        binding.progressFavorites.visibility = View.VISIBLE
+                    } else {
+                        binding.firstGroup.visibility = View.VISIBLE
+                        binding.secondGroup.visibility = View.VISIBLE
+                        binding.progressFavorites.visibility = View.GONE
+                    }
+                    if (it.source.refresh is LoadState.Error) {
+                        binding.firstGroup.visibility = View.GONE
+                        binding.secondGroup.visibility = View.GONE
+                        binding.textFavoritesError.visibility = View.VISIBLE
+                    } else {
+                        binding.firstGroup.visibility = View.VISIBLE
+                        binding.secondGroup.visibility = View.VISIBLE
+                        binding.textFavoritesError.visibility = View.GONE
+                    }
                 }
             }
         }

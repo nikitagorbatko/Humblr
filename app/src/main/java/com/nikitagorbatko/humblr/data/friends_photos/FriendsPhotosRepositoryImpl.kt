@@ -9,8 +9,10 @@ class FriendsPhotosRepositoryImpl(private val getUserUseCase: GetUserUseCase,): 
     override suspend fun getFriendInfo(name: String): UserDto? {
         friendList.find { it.name == name }?.let { return it }
         return try {
-            val friend = getUserUseCase.execute(author = name).data
-            friendList.add(friend)
+            val friend = getUserUseCase.execute(author = name)?.data
+            if (friend != null) {
+                friendList.add(friend)
+            }
             friend
         } catch (_: Exception) {
             null

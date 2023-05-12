@@ -9,12 +9,12 @@ class SaveUnsaveCommentUseCase(
     suspend fun executeSave(id: String) {
         try {
             service.saveComment(id = id, accessToken = token)
-        } catch (ex: Exception ) {
-            ex.message
-        }
+        } catch (_: Exception) { }
     }
 
     suspend fun executeUnsave(id: String) {
-        service.unsaveComment(id = id, accessToken = token)
+        try {
+            service.unsaveComment(id = id, accessToken = token)
+        } catch (_: Exception) { }
     }
 }

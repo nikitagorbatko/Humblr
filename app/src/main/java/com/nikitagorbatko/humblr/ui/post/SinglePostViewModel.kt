@@ -26,7 +26,7 @@ class SinglePostViewModel(
         try {
             _state.emit(State.LOADING)
             val comments = repository.getComments(id)
-            _comments.emit(comments[1].dataDto?.children)
+            _comments.emit(comments?.get(1)?.dataDto?.children)
             _state.emit(State.PRESENT)
         } catch (_: Exception) {
             _state.emit(State.ERROR)

@@ -15,6 +15,7 @@ import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.nikitagorbatko.humblr.R
 import com.nikitagorbatko.humblr.databinding.FragmentUserBinding
 import com.nikitagorbatko.humblr.ui.CommonLoadStateAdapter
+import com.nikitagorbatko.humblr.ui.favourites.FavouritesFragmentDirections
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
@@ -63,9 +64,23 @@ class UserFragment : Fragment() {
         binding.toolbarUser.setNavigationOnClickListener {
             findNavController().popBackStack()
         }
-        adapter = UserCommentsAdapter {
+        adapter = UserCommentsAdapter(
+            onItemClick = {
 
-        }
+            },
+            onVoteDown = {
+                viewModel.voteDown(it)
+            },
+            onVoteUp = {
+                viewModel.voteUp(it)
+            },
+            saveComment = {
+                viewModel.saveComment(it)
+            },
+            unsaveComment = {
+                viewModel.unsaveComment(it)
+            }
+        )
         binding.recyclerUserComments.adapter = adapter.withLoadStateFooter(
             CommonLoadStateAdapter()
         )

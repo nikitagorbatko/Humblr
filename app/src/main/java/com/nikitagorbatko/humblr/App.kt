@@ -62,7 +62,7 @@ class App : Application() {
         viewModel { SubredditsViewModel(get(), get(), get()) }
         viewModel { PostsViewModel(get(), get(), get()) }
         viewModel { SinglePostViewModel(get(), get(), get()) }
-        viewModel { UserViewModel(get(), get(), get()) }
+        viewModel { UserViewModel(get(), get(), get(), get(), get()) }
         viewModel { AccountViewModel(get(), get(), get()) }
         viewModel { FriendsViewModel(get()) }
         viewModel { FavouritesViewModel(get(), get(), get(), get(), get(), get()) }
@@ -75,7 +75,6 @@ class App : Application() {
         factory { GetUserUseCase(get(), get()) }
         factory { FriendUnfriendUserUseCase(get(), get()) }
         factory { GetAccountUseCase(get(), get()) }
-        factory { GetFavouriteSubredditsUseCase(get(), get()) }
         factory { GetUserCommentsAmountUseCase(get(), get()) }
         factory { VoteUnvoteUseCase(get(), get()) }
         factory { SaveUnsaveCommentUseCase(get(), get()) }

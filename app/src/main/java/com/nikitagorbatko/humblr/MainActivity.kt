@@ -33,6 +33,7 @@ class MainActivity : AppCompatActivity() {
         navController = findNavController(R.id.nav_host_fragment_activity_main)
         navView.setupWithNavController(navController)
 
+
         navController.addOnDestinationChangedListener { _, destination, _ ->
             navView.visibility = when(destination.id) {
                 R.id.splashFragment, R.id.loginFragment, R.id.viewPagerFragment -> {
