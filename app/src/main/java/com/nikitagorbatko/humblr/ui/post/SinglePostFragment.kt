@@ -31,15 +31,35 @@ class SinglePostFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val adapter = CommentsAdapter() {
-            val action = SinglePostFragmentDirections.actionSinglePostFragmentToUserFragment(it)
-            findNavController().navigate(action)
+        val adapter = CommentsAdapter(
+            onItemClick = {
+                val action = SinglePostFragmentDirections.actionSinglePostFragmentToUserFragment(it)
+                findNavController().navigate(action)
+            },
+            onVoteDown = {
+                viewModel.voteDown(it)
+            },
+            onVoteUp = {
+                viewModel.voteUp(it)
+            },
+            saveComment = {
+                viewModel.saveComment(it)
+            },
+            unsaveComment = {
+                viewModel.unsaveComment(it)
+            }
+        )
+
+        binding.toolbarSinglePost.setNavigationOnClickListener {
+            findNavController().popBackStack()
         }
 
         binding.recyclerComments.adapter = adapter
 
+        binding.toolbarSinglePost.title = args.post.data.title
+
         viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.getComments(args.id)
+            viewModel.getComments(args.post.data.id)
             viewModel.comments.collect {
                 if (it != null) {
                     adapter.addAll(it)

@@ -30,22 +30,20 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         navView = binding.navView
-
         navController = findNavController(R.id.nav_host_fragment_activity_main)
-
-//        val appBarConfiguration = AppBarConfiguration(
-//            setOf(
-//                R.id.navigation_home, R.id.navigation_dashboard, R.id.navigation_notifications
-//            )
-//        )
-//        setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
-    }
 
-    fun showBottom() {
-        navView.visibility = View.VISIBLE
+        navController.addOnDestinationChangedListener { _, destination, _ ->
+            navView.visibility = when(destination.id) {
+                R.id.splashFragment, R.id.loginFragment, R.id.viewPagerFragment -> {
+                    View.GONE
+                }
+                else -> {
+                    View.VISIBLE
+                }
+            }
+        }
     }
-
 
 //    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
 //        super.onActivityResult(requestCode, resultCode, data)

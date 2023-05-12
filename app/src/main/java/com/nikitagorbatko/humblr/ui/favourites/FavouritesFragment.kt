@@ -8,8 +8,11 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.lifecycle.viewModelScope
+import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
 import androidx.paging.PagingData
+import com.nikitagorbatko.humblr.R
 import com.nikitagorbatko.humblr.databinding.FragmentFavouritesBinding
 import com.nikitagorbatko.humblr.ui.CommonLoadStateAdapter
 import com.nikitagorbatko.humblr.ui.subreddits.SubredditsAdapter
@@ -20,7 +23,6 @@ import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class FavouritesFragment : Fragment() {
-
     private var _binding: FragmentFavouritesBinding? = null
     private val binding get() = _binding!!
 
@@ -50,34 +52,56 @@ class FavouritesFragment : Fragment() {
         observe()
     }
 
+
+
     private fun initializeAdapters() {
         subredditsAdapter = SubredditsAdapter(
             context = requireContext(),
             onItemClick = {
-//                val action =
-//                    SubredditsFragmentDirections.actionNavigationSubredditsToSubredditPostsFragment(
-//                        it
-//                    )
-//                findNavController().navigate(action)
+                val action =
+                    FavouritesFragmentDirections.actionNavigationFavouritesToSubredditPostsFragment(
+                        it
+                    )
+                findNavController().navigate(action)
             },
             onAddClick = { subscribed, name ->
                 //wihtout reacting for result
-//                viewModel.viewModelScope.launch {
-//                    if (subscribed) {
-//                        viewModel.unsubscribeFromSub(name)
-//                    } else {
-//                        viewModel.subscribeToSub(name)
-//                    }
-//                }
+                viewModel.viewModelScope.launch {
+                    if (subscribed) {
+                        viewModel.unsubscribeFromSub(name)
+                    } else {
+                        viewModel.subscribeToSub(name)
+                    }
+                }
             }
         )
 
-        commentsAdapter = CommentsAdapter {
-
-        }
+        commentsAdapter = CommentsAdapter(
+            onItemClick = {
+                val action =
+                    FavouritesFragmentDirections.actionNavigationFavouritesToUserFragment(
+                        it
+                    )
+                findNavController().navigate(action)
+            },
+            onVoteDown = {
+                viewModel.voteDown(it)
+            },
+            onVoteUp = {
+                    viewModel.voteUp(it)
+            },
+            saveComment = {
+                viewModel.saveComment(it)
+            },
+            unsaveComment = {
+                viewModel.unsaveComment(it)
+            }
+        )
     }
 
     private fun bind() {
+        binding.firstGroup.check(R.id.chip_subreddits)
+        binding.secondGroup.check(R.id.chip_all)
         binding.recyclerUniversal.adapter =
             subredditsAdapter.withLoadStateFooter(CommonLoadStateAdapter())
 

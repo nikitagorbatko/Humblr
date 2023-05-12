@@ -1,13 +1,16 @@
 package com.nikitagorbatko.humblr.api.pojos
 
+import android.os.Parcelable
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
+import kotlinx.parcelize.Parcelize
 
+@Parcelize
 @JsonClass(generateAdapter = true)
 data class ChildPostDto(
     @Json(name = "kind") val kind: String,
     @Json(name = "data") val data: PostDto
-)
+): Parcelable
 
 @JsonClass(generateAdapter = true)
 data class PostDataDto(
@@ -15,6 +18,8 @@ data class PostDataDto(
     @Json(name = "before")  val before: String?,
     @Json(name = "children")  val children: List<ChildPostDto>
 )
+
+@Parcelize
 
 @JsonClass(generateAdapter = true)
 data class PostDto(
@@ -38,7 +43,7 @@ data class PostDto(
     @Json(name = "thumbnail_height")  val thumbnail_height: Int?,
     @Json(name = "thumbnail_width")  val thumbnail_width: Int?,
     @Json(name = "likes")  var likes: Boolean?
-)
+): Parcelable
 
 @JsonClass(generateAdapter = true)
 data class PostResponseDto(

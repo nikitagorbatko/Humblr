@@ -23,17 +23,28 @@
         android:id="@+id/navigation_subreddits"
         android:name="com.nikitagorbatko.humblr.ui.subreddits.SubredditsFragment"
         android:label="@string/title_subreddits"
-        tools:layout="@layout/fragment_subreddits" >
+        tools:layout="@layout/activity_main" >
         <action
             android:id="@+id/action_navigation_subreddits_to_subredditPostsFragment"
-            app:destination="@id/subredditPostsFragment" />
+            app:destination="@id/subredditPostsFragment"
+            app:launchSingleTop="false"
+            app:popUpTo="@id/navigation_subreddits" />
     </fragment>
 
     <fragment
         android:id="@+id/navigation_favourites"
         android:name="com.nikitagorbatko.humblr.ui.favourites.FavouritesFragment"
         android:label="@string/title_favourites"
-        tools:layout="@layout/fragment_favourites" />
+        tools:layout="@layout/fragment_favourites" >
+        <action
+            android:id="@+id/action_navigation_favourites_to_userFragment"
+            app:destination="@id/userFragment"
+            app:popUpTo="@id/navigation_favourites" />
+        <action
+            android:id="@+id/action_navigation_favourites_to_subredditPostsFragment"
+            app:destination="@id/subredditPostsFragment"
+            app:popUpTo="@id/navigation_favourites" />
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_user"
@@ -42,7 +53,8 @@
         tools:layout="@layout/fragment_account" >
         <action
             android:id="@+id/action_navigation_user_to_friendsFragment"
-            app:destination="@id/friendsFragment" />
+            app:destination="@id/friendsFragment"
+            app:popUpTo="@id/navigation_user" />
     </fragment>
     <fragment
         android:id="@+id/loginFragment"
@@ -83,24 +95,26 @@
         android:name="com.nikitagorbatko.humblr.ui.subreddit_posts.PostsFragment"
         android:label="fragment_subredit_posts"
         tools:layout="@layout/fragment_posts" >
-        <argument
-            android:name="displayName"
-            app:argType="string" />
         <action
             android:id="@+id/action_subredditPostsFragment_to_singlePostFragment"
-            app:destination="@id/singlePostFragment" />
+            app:destination="@id/singlePostFragment"
+            app:popUpTo="@id/subredditPostsFragment" />
+        <argument
+            android:name="subreddit"
+            app:argType="com.nikitagorbatko.humblr.api.pojos.SubredditDto" />
     </fragment>
     <fragment
         android:id="@+id/singlePostFragment"
         android:name="com.nikitagorbatko.humblr.ui.post.SinglePostFragment"
         android:label="fragment_single_post"
         tools:layout="@layout/fragment_single_post" >
-        <argument
-            android:name="id"
-            app:argType="string" />
         <action
             android:id="@+id/action_singlePostFragment_to_userFragment"
-            app:destination="@id/userFragment" />
+            app:destination="@id/userFragment"
+            app:popUpTo="@id/singlePostFragment" />
+        <argument
+            android:name="post"
+            app:argType="com.nikitagorbatko.humblr.api.pojos.ChildPostDto" />
     </fragment>
     <fragment
         android:id="@+id/userFragment"
@@ -118,6 +132,7 @@
         tools:layout="@layout/fragment_friends" >
         <action
             android:id="@+id/action_friendsFragment_to_userFragment"
-            app:destination="@id/userFragment" />
+            app:destination="@id/userFragment"
+            app:popUpTo="@id/friendsFragment" />
     </fragment>
 </navigation>

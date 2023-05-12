@@ -1,21 +1,34 @@
 package com.nikitagorbatko.humblr.ui.friends
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.lifecycle.LifecycleCoroutineScope
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.model.GlideUrl
+import com.bumptech.glide.load.model.LazyHeaders
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.nikitagorbatko.humblr.api.pojos.FriendDto
+import com.nikitagorbatko.humblr.data.friends_photos.FriendsPhotosRepository
 import com.nikitagorbatko.humblr.databinding.FriendItemBinding
+import kotlinx.coroutines.launch
+import org.koin.java.KoinJavaComponent
 
 
 class FriendsAdapter(
-    //usecase
-    private val onItemClick: (name: String) -> Unit
+    private val scope: LifecycleCoroutineScope,
+    val onItemClick: (name: String) -> Unit
 ) :
     RecyclerView.Adapter<FriendsAdapter.ViewHolder>() {
     private val friendsList = mutableListOf<FriendDto>()
+    private val repository: FriendsPhotosRepository by KoinJavaComponent.inject(
+        FriendsPhotosRepository::class.java
+    )
 
-    inner class ViewHolder(val binding: FriendItemBinding) :
-        RecyclerView.ViewHolder(binding.root)
+    private val token: String by KoinJavaComponent.inject(String::class.java)
+
+    inner class ViewHolder(val binding: FriendItemBinding) : RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding =
@@ -25,6 +38,7 @@ class FriendsAdapter(
 
     override fun getItemCount() = friendsList.size
 
+    @SuppressLint("NotifyDataSetChanged")
     fun addAll(friends: List<FriendDto>) {
         friendsList.addAll(friends)
         notifyDataSetChanged()
@@ -36,19 +50,23 @@ class FriendsAdapter(
         with(holder.binding) {
             textPersonName.text = friend.name
             root.setOnClickListener {
-               onItemClick(friend.name)
+                onItemClick(friend.name)
             }
-//            root.setOnClickListener {
-//                post?.data?.id?.let { it1 -> onItemClick(it1) }
-//            }
-//            textViewTitle.text = post?.data?.title
-//            textViewName.text = post?.data?.author
-//            textViewComments.text = post?.data?.num_comments.toString()
-//            Glide.with(root)
-//                .load(post?.data?.url)
-//                .transition(DrawableTransitionOptions.withCrossFade())
-//                .centerCrop()
-//                .into(imageViewMain)
+            scope.launch {
+                try {
+                    val glideUrl = GlideUrl(
+                        repository.getFriendInfo(friend.name)?.icon_img,
+                        LazyHeaders.Builder()
+                            .addHeader("Authorization", token)
+                            .build()
+                    )
+                    Glide.with(root)
+                        .load(glideUrl)
+                        .transition(DrawableTransitionOptions.withCrossFade())
+                        .centerCrop()
+                        .into(imagePerson)
+                } catch (_: Exception) { }
+            }
         }
     }
 }

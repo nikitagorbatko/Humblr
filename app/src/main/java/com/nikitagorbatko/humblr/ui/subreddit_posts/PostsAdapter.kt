@@ -11,7 +11,7 @@ import com.nikitagorbatko.humblr.api.pojos.ChildPostDto
 import com.nikitagorbatko.humblr.databinding.PostItemBinding
 
 class PostsAdapter(
-    private val onItemClick: (id: String) -> Unit
+    private val onItemClick: (post: ChildPostDto) -> Unit
 ) :
     PagingDataAdapter<ChildPostDto, PostsAdapter.ViewHolder>(DiffUtilCallback()) {
 
@@ -31,7 +31,9 @@ class PostsAdapter(
 
         with(holder.binding) {
             root.setOnClickListener {
-                post?.data?.id?.let { it1 -> onItemClick(it1) }
+                if (post != null) {
+                    onItemClick(post)
+                }
             }
             textPostTitle.text = post?.data?.title
             textPostName.text = post?.data?.author

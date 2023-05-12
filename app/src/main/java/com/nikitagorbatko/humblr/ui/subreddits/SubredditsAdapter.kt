@@ -8,11 +8,12 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.nikitagorbatko.humblr.R
 import com.nikitagorbatko.humblr.api.pojos.ChildSubredditDto
+import com.nikitagorbatko.humblr.api.pojos.SubredditDto
 import com.nikitagorbatko.humblr.databinding.SubredditItemBinding
 
 class SubredditsAdapter(
     private val context: Context,
-    private val onItemClick: (displayName: String) -> Unit,
+    private val onItemClick: (subreddit: SubredditDto) -> Unit,
     private val onAddClick: (subscribed: Boolean, name: String) -> Unit
 ) :
     PagingDataAdapter<ChildSubredditDto, SubredditsAdapter.ViewHolder>(DiffUtilCallback()) {
@@ -37,7 +38,7 @@ class SubredditsAdapter(
 
         with(holder.binding) {
             root.setOnClickListener {
-                subreddit?.data?.displayName?.let { onItemClick(it) }
+                subreddit?.data?.displayName?.let { onItemClick(subreddit.data) }
             }
             textPostTitle.text = subreddit?.data?.title
             val subscribed = subreddit?.data?.subscribed == true

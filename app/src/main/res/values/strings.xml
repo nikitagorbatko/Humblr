@@ -37,9 +37,7 @@
     <string name="logout">Logout</string>
     <string name="clear_saved">Clear saved</string>
     <string name="friend_list">Friend list</string>
-
-
-
-
-
+    <string name="you_subscribed">You were subscribed</string>
+    <string name="you_unsubscribed">You were unsubscribed</string>
+    <string name="share">Share</string>
 </resources>

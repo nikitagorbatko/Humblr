@@ -3,7 +3,6 @@ package com.nikitagorbatko.humblr.data.user_comments//package com.nikitagorbatko
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
-import com.nikitagorbatko.humblr.api.RedditService
 import com.nikitagorbatko.humblr.api.pojos.CommentDto
 import com.nikitagorbatko.humblr.api.services.UserCommentsService
 

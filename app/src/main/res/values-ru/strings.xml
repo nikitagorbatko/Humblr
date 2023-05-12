@@ -36,10 +36,7 @@
     <string name="logout">Выйти</string>
     <string name="clear_saved">Очистить сохраненные</string>
     <string name="friend_list">Список друзей</string>
-
-
-
-
-
-
+    <string name="you_subscribed">Вы подписаны</string>
+    <string name="you_unsubscribed">Вы отписаны</string>
+    <string name="share">Поделиться</string>
 </resources>

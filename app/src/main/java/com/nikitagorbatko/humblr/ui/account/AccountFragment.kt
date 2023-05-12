@@ -39,10 +39,11 @@ class AccountFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.buttonLogout.setOnClickListener {
-            showLogoutDialog()
-        }
+        bind()
+        observe()
+    }
 
+    private fun observe() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.getUserInfo()
             viewModel.account.collect {
@@ -61,6 +62,12 @@ class AccountFragment : Fragment() {
                         findNavController().navigate(action)
                     }
                 }
+            }
+        }
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.commentsAmount.collect {
+                binding.textCommentsVal.text = it.toString()
             }
         }
 
@@ -96,18 +103,26 @@ class AccountFragment : Fragment() {
         }
     }
 
+    private fun bind() {
+        binding.buttonLogout.setOnClickListener {
+            showLogoutDialog()
+        }
+    }
+
     private fun showLogoutDialog() {
         val activity = requireActivity()
 
         alertDialog = activity.let {
             val builder = AlertDialog.Builder(it)
             builder.apply {
-                setPositiveButton(R.string.ok
+                setPositiveButton(
+                    R.string.ok
                 ) { _, _ ->
                     viewModel.logout()
                     activity.finish()
                 }
-                setNegativeButton(R.string.cancel
+                setNegativeButton(
+                    R.string.cancel
                 ) { _, _ ->
                     alertDialog.cancel()
                 }

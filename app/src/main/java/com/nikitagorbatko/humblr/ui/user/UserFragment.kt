@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewModelScope
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
@@ -20,7 +21,6 @@ import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class UserFragment : Fragment() {
-
     private var _binding: FragmentUserBinding? = null
     private val binding get() = _binding!!
 
@@ -36,13 +36,11 @@ class UserFragment : Fragment() {
     private lateinit var subscribeTitle: String
     private lateinit var unsubscribeTitle: String
 
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentUserBinding.inflate(inflater, container, false)
-
         return binding.root
     }
 
@@ -62,6 +60,9 @@ class UserFragment : Fragment() {
     }
 
     private fun bind() {
+        binding.toolbarUser.setNavigationOnClickListener {
+            findNavController().popBackStack()
+        }
         adapter = UserCommentsAdapter {
 
         }
@@ -81,7 +82,11 @@ class UserFragment : Fragment() {
                 binding.textViewSubscribe.text = unsubscribeTitle
             }
             viewModel.viewModelScope.launch {
-                viewModel.addAsFriend(args.name)
+                if (isUserFriend) {
+                    viewModel.removeFromFriends(args.name)
+                } else {
+                    viewModel.addAsFriend(args.name)
+                }
             }
             isUserFriend = !isUserFriend
         }

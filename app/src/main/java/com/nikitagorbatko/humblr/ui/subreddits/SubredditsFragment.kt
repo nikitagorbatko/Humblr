@@ -38,7 +38,6 @@ class SubredditsFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        (requireActivity() as MainActivity).showBottom()
         _binding = FragmentSubredditsBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -56,9 +55,7 @@ class SubredditsFragment : Fragment() {
             context = requireContext(),
             onItemClick = {
                 val action =
-                    SubredditsFragmentDirections.actionNavigationSubredditsToSubredditPostsFragment(
-                        it
-                    )
+                    SubredditsFragmentDirections.actionNavigationSubredditsToSubredditPostsFragment(it)
                 findNavController().navigate(action)
             },
             onAddClick = { subscribed, name ->

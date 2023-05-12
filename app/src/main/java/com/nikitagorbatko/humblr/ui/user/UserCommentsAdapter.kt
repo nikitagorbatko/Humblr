@@ -11,8 +11,7 @@ import com.nikitagorbatko.humblr.databinding.TestCommentItemBinding
 
 class UserCommentsAdapter(
     private val onItemClick: (author: String) -> Unit
-) :
-    PagingDataAdapter<CommentDto, UserCommentsAdapter.ViewHolder>(DiffUtilCallback()) {
+) : PagingDataAdapter<CommentDto, UserCommentsAdapter.ViewHolder>(DiffUtilCallback()) {
 
     inner class ViewHolder(val binding: TestCommentItemBinding) :
         RecyclerView.ViewHolder(binding.root)
@@ -30,7 +29,9 @@ class UserCommentsAdapter(
         //post.data.
 
         with(holder.binding) {
-//            textView.text = comment?.data?.body + "\n\n"
+            textName.text = comment?.data?.author
+            textBody.text = comment?.data?.body
+
             root.setOnClickListener {
                 comment?.data?.author?.let { it1 -> onItemClick(it1) }
             }

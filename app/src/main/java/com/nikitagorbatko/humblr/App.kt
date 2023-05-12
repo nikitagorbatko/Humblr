@@ -6,6 +6,8 @@ import com.nikitagorbatko.humblr.data.comments.CommentsRepository
 import com.nikitagorbatko.humblr.data.comments.CommentsRepositoryImpl
 import com.nikitagorbatko.humblr.data.friends.FriendsRepository
 import com.nikitagorbatko.humblr.data.friends.FriendsRepositoryImpl
+import com.nikitagorbatko.humblr.data.friends_photos.FriendsPhotosRepository
+import com.nikitagorbatko.humblr.data.friends_photos.FriendsPhotosRepositoryImpl
 import com.nikitagorbatko.humblr.data.name.NameRepository
 import com.nikitagorbatko.humblr.data.name.NameRepositoryImpl
 import com.nikitagorbatko.humblr.data.posts.PostsRepository
@@ -52,16 +54,18 @@ class App : Application() {
         single { get<RetrofitReddit>().unsubscribeSubService() }
         single { get<RetrofitReddit>().userCommentsService() }
         single { get<RetrofitReddit>().userInfoService() }
+        single { get<RetrofitReddit>().voteUnvoteService() }
+        single { get<RetrofitReddit>().saveUnsaveCommentService() }
     }
 
     private val uiModule = module {
         viewModel { SubredditsViewModel(get(), get(), get()) }
-        viewModel { PostsViewModel(get()) }
-        viewModel { SinglePostViewModel(get()) }
+        viewModel { PostsViewModel(get(), get(), get()) }
+        viewModel { SinglePostViewModel(get(), get(), get()) }
         viewModel { UserViewModel(get(), get(), get()) }
-        viewModel { AccountViewModel(get(), get()) }
+        viewModel { AccountViewModel(get(), get(), get()) }
         viewModel { FriendsViewModel(get()) }
-        viewModel { FavouritesViewModel(get(), get()) }
+        viewModel { FavouritesViewModel(get(), get(), get(), get(), get(), get()) }
     }
 
     private val domainModule = module {
@@ -69,24 +73,35 @@ class App : Application() {
         factory { UnsubscribeUseCase(get(), get()) }
         factory { GetAllCommentsUseCase(get(), get()) }
         factory { GetUserUseCase(get(), get()) }
-        factory { FriendUserUseCase(get(), get()) }
+        factory { FriendUnfriendUserUseCase(get(), get()) }
         factory { GetAccountUseCase(get(), get()) }
         factory { GetFavouriteSubredditsUseCase(get(), get()) }
+        factory { GetUserCommentsAmountUseCase(get(), get()) }
+        factory { VoteUnvoteUseCase(get(), get()) }
+        factory { SaveUnsaveCommentUseCase(get(), get()) }
     }
 
     private val dataModule = module {
         single<SharedPreferencesRepository> { SharedPreferencesRepositoryImpl(androidContext()) }
         single { get<SharedPreferencesRepository>().getToken() }
-        single<SubredditsRepository> { SubredditsRepositoryImpl(get(), get(), get(), get(), get(), get()) }
-        single<PostsRepository> {
-            PostsRepositoryImpl(get(), get())
+        single<SubredditsRepository> {
+            SubredditsRepositoryImpl(
+                get(),
+                get(),
+                get(),
+                get(),
+                get(),
+                get()
+            )
         }
+        single<PostsRepository> { PostsRepositoryImpl(get(), get()) }
         single<CommentsRepository> { CommentsRepositoryImpl(get()) }
         single<UserCommentsRepository> { UserCommentsRepositoryImpl(get(), get()) }
         single<FriendsRepository> { FriendsRepositoryImpl(get(), get()) }
         single<SavedPostsRepository> { SavedPostsRepositoryImpl(get(), get(), get()) }
         single<SavedCommentsRepository> { SavedCommentsRepositoryImpl(get(), get(), get()) }
         single<NameRepository> { NameRepositoryImpl(get(), get()) }
+        single<FriendsPhotosRepository> { FriendsPhotosRepositoryImpl(get()) }
     }
 
     override fun onCreate() {
@@ -101,9 +116,5 @@ class App : Application() {
                 uiModule
             )
         }
-    }
-
-    companion object {
-        const val NAME_PROPERTY = "name"
     }
 }

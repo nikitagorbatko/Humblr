@@ -1,7 +1,9 @@
 package com.nikitagorbatko.humblr.api.pojos
 
+import android.os.Parcelable
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
+import kotlinx.parcelize.Parcelize
 
 @JsonClass(generateAdapter = true)
 data class ChildSubredditDto(
@@ -16,6 +18,7 @@ data class SubDataDto(
     @Json(name = "children") val children: List<ChildSubredditDto>
 )
 
+@Parcelize
 @JsonClass(generateAdapter = true)
 data class SubredditDto(
     @Json(name = "title") val title: String,
@@ -25,7 +28,7 @@ data class SubredditDto(
     @Json(name = "user_is_subscriber") var subscribed: Boolean,
     @Json(name = "subscribers") val subscribers: Long,
     @Json(name = "display_name") val displayName: String,
-)
+): Parcelable
 
 @JsonClass(generateAdapter = true)
 data class SubResponseDto(
