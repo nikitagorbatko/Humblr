@@ -17,6 +17,7 @@ import com.nikitagorbatko.humblr.R
 import com.nikitagorbatko.humblr.databinding.FragmentSinglePostBinding
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -113,8 +114,8 @@ class SinglePostFragment : Fragment() {
                     item: NodeViewData<CommentUi>,
                     bundle: Bundle?
                 ) {
-                    val comment = list[position]
-                    val timeCreated = comment.created?.let { convertLongToTime(it) }
+                    val comment = item.getData()
+                    val timeCreated = comment.created?.let { getDateTime(it) }
                     val saved = comment.saved == true
 
                     holder.findViewById<TextView>(R.id.text_name).text = comment.author
@@ -130,29 +131,37 @@ class SinglePostFragment : Fragment() {
                     )
 
                     holder.findViewById<ImageView>(R.id.image_vote_down).setOnClickListener {
-                        //comment.name?.let { it1 -> onVoteDown(it1) }
+                        comment.name?.let { it1 -> viewModel.voteDown(it1) }
                     }
 
-                    val commentsAmount = comment.replies?.size
-                    holder.findViewById<TextView>(R.id.text_comments_amount).text = "${commentsAmount ?: ""}"
-//                    imageVoteUp.setOnClickListener {
-//                        comment.name?.let { it1 -> onVoteUp(it1) }
-//                    }
-//                    imageSave.setOnClickListener {
-//                        if (comment.saved == true) {
-//                            imageSave.setImageResource(com.nikitagorbatko.humblr.R.drawable.ic_favourite)
-//                            commentsList[position].data!!.saved = false
-//                            comment.data!!.name?.let { it1 -> unsaveComment(it1) }
-//                        } else {
-//                            imageSave.setImageResource(com.nikitagorbatko.humblr.R.drawable.ic_favourited)
-//                            commentsList[position].data!!.saved = true
-//                            comment.data!!.name?.let { it1 -> saveComment(it1) }
-//                        }
-//                        notifyItemChanged(position)
-//                    }
-//                    root.setOnClickListener {
-//                        comment.author?.let { it1 -> onItemClick(it1) }
-//                    }
+                    val commentsAmount = comment.replies.size
+                    holder.findViewById<TextView>(R.id.text_comments_amount).text =
+                        "${commentsAmount ?: ""}"
+                    holder.findViewById<ImageView>(R.id.image_vote_up).setOnClickListener {
+                        comment.name?.let { it1 -> viewModel.voteUp(it1) }
+                    }
+                    val imageSave = holder.findViewById<ImageView>(R.id.image_save)
+                    imageSave.setOnClickListener {
+                        if (comment.saved == true) {
+                            imageSave.setImageResource(com.nikitagorbatko.humblr.R.drawable.ic_favourite)
+                            comment.saved = false
+                            comment.name?.let { it1 -> viewModel.saveComment(it1) }
+                        } else {
+                            imageSave.setImageResource(com.nikitagorbatko.humblr.R.drawable.ic_favourited)
+                            comment.saved = true
+                            comment.name?.let { it1 -> viewModel.saveComment(it1) }
+                        }
+
+                    }
+                    holder.findViewById<TextView>(R.id.text_name).setOnClickListener {
+                        comment.author?.let { it1 ->
+                            val action =
+                                SinglePostFragmentDirections.actionSinglePostFragmentToUserFragment(
+                                    it1
+                                )
+                            findNavController().navigate(action)
+                        }
+                    }
                     //toggle node
                     holder.setOnClickListener {
                         if (item.isExpanded) {
@@ -177,10 +186,14 @@ class SinglePostFragment : Fragment() {
             .build()
     }
 
-    private fun convertLongToTime(time: Int): String {
-        val date = Date(time.toLong())
-        val format = SimpleDateFormat("yyyy.MM.dd HH:mm")
-        return format.format(date)
+    private fun getDateTime(s: Int): String? {
+        return try {
+            val sdf = SimpleDateFormat("yyyy.MM.dd HH:mm")
+            val netDate = Date(s.toLong() * 1000)
+            sdf.format(netDate)
+        } catch (e: Exception) {
+            e.toString()
+        }
     }
 
     override fun onDestroyView() {

@@ -15,12 +15,12 @@ data class CommentUi(
     var upvoteRatio: Double?,
     var body: String?,
     var authorFullname: String?,
-    var likes: String?,
+    //var likes: String?,
     var author: String?,
     var createdUtc: Int?,
     var created: Int?,
     var numComments: Int?,
-    var replies: List<CommentUi>?,
+    var replies: List<CommentUi>,
     var url: String?,
     var isVideo: Boolean?,
 ) : NodeData<CommentUi> {
@@ -28,7 +28,7 @@ data class CommentUi(
         return if (item !is CommentUi) {
             false
         } else {
-            item.createdUtc == createdUtc
+            item.body == body
         }
     }
 
@@ -45,7 +45,7 @@ data class CommentUi(
     }
 
     override fun getNodeChild(): List<NodeData<CommentUi>> {
-        return replies ?: emptyList()
+        return replies
     }
 
 }

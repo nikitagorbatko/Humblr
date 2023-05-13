@@ -32,7 +32,7 @@ class UserCommentsAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val comment = getItem(position)
-        val timeCreated = comment?.data?.created?.let { convertLongToTime(it) }
+        val timeCreated = comment?.data?.created?.let { getDateTime(it) }
         val saved = comment?.data?.saved == true
 
         with(holder.binding) {
@@ -71,10 +71,14 @@ class UserCommentsAdapter(
         }
     }
 
-    fun convertLongToTime(time: Int): String {
-        val date = Date(time.toLong())
-        val format = SimpleDateFormat("yyyy.MM.dd HH:mm")
-        return format.format(date)
+    private fun getDateTime(s: Int): String? {
+        return try {
+            val sdf = SimpleDateFormat("yyyy.MM.dd HH:mm")
+            val netDate = Date(s.toLong() * 1000)
+            sdf.format(netDate)
+        } catch (e: Exception) {
+            e.toString()
+        }
     }
 
     class DiffUtilCallback : DiffUtil.ItemCallback<CommentDto>() {

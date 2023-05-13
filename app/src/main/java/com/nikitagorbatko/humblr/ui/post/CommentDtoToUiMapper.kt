@@ -19,9 +19,9 @@ object CommentDtoToUiMapper {
                     downs = data.downs,
                     name = data.name,
                     upvoteRatio = data.upvoteRatio,
-                    body = data.body,
+                    body = if (data.body == null) return@forEach else data.body,
                     authorFullname = data.authorFullname,
-                    likes = data.likes,
+                    //likes = data.likes,
                     author = data.author,
                     createdUtc = data.createdUtc,
                     created = data.created,
@@ -50,9 +50,9 @@ object CommentDtoToUiMapper {
                     downs = data.downs,
                     name = data.name,
                     upvoteRatio = data.upvoteRatio,
-                    body = data.body,
+                    body = if (data.body == null) return@forEach else data.body,
                     authorFullname = data.authorFullname,
-                    likes = data.likes,
+                    //likes = data.likes,
                     author = if (data.author == "[deleted]") {
                         return@forEach
                     } else {

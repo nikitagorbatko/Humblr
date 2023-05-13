@@ -40,7 +40,7 @@ data class CommentDataDto(
     @Json(name = "upvote_ratio") var upvoteRatio: Double?,
     @Json(name = "body") var body: String?,
     @Json(name = "author_fullname") var authorFullname: String?,
-    @Json(name = "likes") var likes: String?,
+    //@Json(name = "likes") var likes: String?,
     @Json(name = "author") var author: String?,
     @Json(name = "created_utc") var createdUtc: Int?,
     @Json(name = "created") var created: Int?,

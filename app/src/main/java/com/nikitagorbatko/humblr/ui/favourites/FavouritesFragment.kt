@@ -10,12 +10,14 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.fragment.findNavController
+import androidx.paging.CombinedLoadStates
 import androidx.paging.LoadState
 import androidx.paging.PagingData
 import com.nikitagorbatko.humblr.R
 import com.nikitagorbatko.humblr.databinding.FragmentFavouritesBinding
 import com.nikitagorbatko.humblr.ui.CommonLoadStateAdapter
 import com.nikitagorbatko.humblr.ui.subreddits.SubredditsAdapter
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.merge
 import kotlinx.coroutines.flow.onEach
@@ -185,27 +187,39 @@ class FavouritesFragment : Fragment() {
 
         viewLifecycleOwner.lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                merge(subredditsAdapter.loadStateFlow, commentsAdapter.loadStateFlow).collect {
-                    if (it.source.refresh is LoadState.Loading) {
-                        binding.firstGroup.visibility = View.GONE
-                        binding.secondGroup.visibility = View.GONE
-                        binding.progressFavorites.visibility = View.VISIBLE
-                    } else {
-                        binding.firstGroup.visibility = View.VISIBLE
-                        binding.secondGroup.visibility = View.VISIBLE
-                        binding.progressFavorites.visibility = View.GONE
-                    }
-                    if (it.source.refresh is LoadState.Error) {
-                        binding.firstGroup.visibility = View.GONE
-                        binding.secondGroup.visibility = View.GONE
-                        binding.textFavoritesError.visibility = View.VISIBLE
-                    } else {
-                        binding.firstGroup.visibility = View.VISIBLE
-                        binding.secondGroup.visibility = View.VISIBLE
-                        binding.textFavoritesError.visibility = View.GONE
-                    }
+                subredditsAdapter.loadStateFlow.collectLatest {
+                    handleUi(it)
                 }
             }
+        }
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                commentsAdapter.loadStateFlow.collectLatest {
+                    handleUi(it)
+                }
+            }
+        }
+    }
+
+    private fun handleUi(it: CombinedLoadStates) {
+        if (it.source.refresh is LoadState.Loading) {
+            binding.firstGroup.visibility = View.GONE
+            binding.secondGroup.visibility = View.GONE
+            binding.progressFavorites.visibility = View.VISIBLE
+        } else {
+            binding.firstGroup.visibility = View.VISIBLE
+            binding.secondGroup.visibility = View.VISIBLE
+            binding.progressFavorites.visibility = View.GONE
+        }
+        if (it.source.refresh is LoadState.Error) {
+            binding.firstGroup.visibility = View.GONE
+            binding.secondGroup.visibility = View.GONE
+            binding.textFavoritesError.visibility = View.VISIBLE
+        } else {
+            binding.firstGroup.visibility = View.VISIBLE
+            binding.secondGroup.visibility = View.VISIBLE
+            binding.textFavoritesError.visibility = View.GONE
         }
     }
 
