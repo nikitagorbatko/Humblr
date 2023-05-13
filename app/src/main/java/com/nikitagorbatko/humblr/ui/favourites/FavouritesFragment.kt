@@ -49,6 +49,7 @@ class FavouritesFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+
         initializeAdapters()
         bind()
         observe()
@@ -137,6 +138,7 @@ class FavouritesFragment : Fragment() {
     private fun onChipClick() {
         subredditsAdapter.submitData(lifecycle, PagingData.empty())
         commentsAdapter.submitData(lifecycle, PagingData.empty())
+
         when {
             firstGroupChipType == FirstGroupChip.SUBREDDITS && secondGroupChipType == SecondGroupChip.ALL -> {
                 checkChangeAdapter(AdapterType.SUB_ADAPTER)
@@ -184,7 +186,6 @@ class FavouritesFragment : Fragment() {
 
     private fun observe() {
         onChipClick()
-
         viewLifecycleOwner.lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 subredditsAdapter.loadStateFlow.collectLatest {

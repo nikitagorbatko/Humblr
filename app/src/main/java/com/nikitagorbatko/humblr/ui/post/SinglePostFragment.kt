@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewModelScope
@@ -41,26 +42,24 @@ class SinglePostFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val adapter = CommentsAdapter(
-            onItemClick = {
-                val action = SinglePostFragmentDirections.actionSinglePostFragmentToUserFragment(it)
-                findNavController().navigate(action)
-            },
-            onVoteDown = {
-                viewModel.voteDown(it)
-            },
-            onVoteUp = {
-                viewModel.voteUp(it)
-            },
-            saveComment = {
-                viewModel.saveComment(it)
-            },
-            unsaveComment = {
-                viewModel.unsaveComment(it)
-            }
-        )
-
-
+//        val adapter = CommentsAdapter(
+//            onItemClick = {
+//                val action = SinglePostFragmentDirections.actionSinglePostFragmentToUserFragment(it)
+//                findNavController().navigate(action)
+//            },
+//            onVoteDown = {
+//                viewModel.voteDown(it)
+//            },
+//            onVoteUp = {
+//                viewModel.voteUp(it)
+//            },
+//            saveComment = {
+//                viewModel.saveComment(it)
+//            },
+//            unsaveComment = {
+//                viewModel.unsaveComment(it)
+//            }
+//        )
 
         binding.toolbarSinglePost.setNavigationOnClickListener {
             findNavController().popBackStack()
@@ -132,22 +131,25 @@ class SinglePostFragment : Fragment() {
 
                     holder.findViewById<ImageView>(R.id.image_vote_down).setOnClickListener {
                         comment.name?.let { it1 -> viewModel.voteDown(it1) }
+                        Toast.makeText(requireContext(), "vote down", Toast.LENGTH_SHORT).show()
+                    }
+                    holder.findViewById<ImageView>(R.id.image_vote_up).setOnClickListener {
+                        comment.name?.let { it1 -> viewModel.voteUp(it1) }
+                        Toast.makeText(requireContext(), "vote up", Toast.LENGTH_SHORT).show()
                     }
 
                     val commentsAmount = comment.replies.size
                     holder.findViewById<TextView>(R.id.text_comments_amount).text =
                         "${commentsAmount ?: ""}"
-                    holder.findViewById<ImageView>(R.id.image_vote_up).setOnClickListener {
-                        comment.name?.let { it1 -> viewModel.voteUp(it1) }
-                    }
+
                     val imageSave = holder.findViewById<ImageView>(R.id.image_save)
                     imageSave.setOnClickListener {
                         if (comment.saved == true) {
-                            imageSave.setImageResource(com.nikitagorbatko.humblr.R.drawable.ic_favourite)
+                            imageSave.setImageResource(R.drawable.ic_favourite)
                             comment.saved = false
                             comment.name?.let { it1 -> viewModel.saveComment(it1) }
                         } else {
-                            imageSave.setImageResource(com.nikitagorbatko.humblr.R.drawable.ic_favourited)
+                            imageSave.setImageResource(R.drawable.ic_favourited)
                             comment.saved = true
                             comment.name?.let { it1 -> viewModel.saveComment(it1) }
                         }
@@ -170,7 +172,6 @@ class SinglePostFragment : Fragment() {
                             treeView.expandNode(item.nodeId)
                         }
                     }
-
                 }
 
                 override fun onNodeSelected(

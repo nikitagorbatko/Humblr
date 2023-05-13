@@ -27,6 +27,8 @@
     <string name="subscribe_title">Subscribe</string>
     <string name="unsubscribe_title">Unsubscribe</string>
     <string name="error_text">No network connection</string>
+    <string name="empty_text">Info is unavailable or was deleted</string>
+
 
     <string name="logout_warning_message">Are you sure you want to logout?</string>
     <string name="ok">Ok</string>

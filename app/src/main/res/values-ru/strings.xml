@@ -26,6 +26,8 @@
     <string name="subscribe_title">Подписаться</string>
     <string name="unsubscribe_title">Отписатся</string>
     <string name="error_text">Нет интернет соединения</string>
+    <string name="empty_text">Информация недоступна, или удалена</string>
+
 
     <string name="logout_warning_message">Вы уверены, что хотите выйти?</string>
     <string name="ok">Да</string>

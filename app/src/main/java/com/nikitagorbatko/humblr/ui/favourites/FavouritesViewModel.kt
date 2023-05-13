@@ -2,14 +2,15 @@ package com.nikitagorbatko.humblr.ui.favourites
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.paging.PagingData
 import com.nikitagorbatko.humblr.api.pojos.ChildSubredditDto
+import com.nikitagorbatko.humblr.api.pojos.CommentDto
 import com.nikitagorbatko.humblr.api.services.VoteUnvoteService
 import com.nikitagorbatko.humblr.data.saved_comments.SavedCommentsRepository
-import com.nikitagorbatko.humblr.data.saved_posts.SavedPostsRepository
 import com.nikitagorbatko.humblr.data.subreddits.SubredditsRepository
 import com.nikitagorbatko.humblr.domain.*
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 
 class FavouritesViewModel(
@@ -20,6 +21,7 @@ class FavouritesViewModel(
     private val voteUnvoteUseCase: VoteUnvoteUseCase,
     private val saveUnsaveCommentUseCase: SaveUnsaveCommentUseCase
 ) : ViewModel() {
+
     fun getAllSubreddits() = subredditsRepository.getDefaultSubreddits()
 
     fun getFavouriteSubreddits() = subredditsRepository.getFavouriteSubreddits()
