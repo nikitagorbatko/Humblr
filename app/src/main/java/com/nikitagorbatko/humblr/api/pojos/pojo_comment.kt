@@ -19,8 +19,6 @@ data class CommentsResponseDto(
 data class DataDto(
     @Json(name = "after") var after: String?,
     @Json(name = "dist") var dist: String?,
-    @Json(name = "modhash") var modhash: String?,
-    //@Json(name = "geo_filter") var geoFilter: String?,
     @Json(name = "children") var children: List<CommentDto>?,
     @Json(name = "before") var before: String?
 )
@@ -32,6 +30,7 @@ data class GildingsDto(
 
 @JsonClass(generateAdapter = true)
 data class CommentDataDto(
+    @Json(name = "id") var id: String?,
     @Json(name = "subreddit") var subreddit: String?,
     @Json(name = "selftext") var selftext: String?,
     @Json(name = "saved") var saved: Boolean?,
@@ -42,7 +41,6 @@ data class CommentDataDto(
     @Json(name = "body") var body: String?,
     @Json(name = "author_fullname") var authorFullname: String?,
     @Json(name = "likes") var likes: String?,
-    @Json(name = "id") var id: String?,
     @Json(name = "author") var author: String?,
     @Json(name = "created_utc") var createdUtc: Int?,
     @Json(name = "created") var created: Int?,

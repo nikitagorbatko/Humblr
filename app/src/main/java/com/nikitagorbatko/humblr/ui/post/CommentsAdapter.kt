@@ -76,38 +76,12 @@ class CommentsAdapter(
             root.setOnClickListener {
                 comment.data?.author?.let { it1 -> onItemClick(it1) }
             }
-//            root.setOnClickListener {
-//                post?.data?.id?.let { it1 -> onItemClick(it1) }
-//            }
-//            textViewTitle.text = post?.data?.title
-//            textViewName.text = post?.data?.author
-//            textViewComments.text = post?.data?.num_comments.toString()
-//            Glide.with(root)
-//                .load(post?.data?.url)
-//                .transition(DrawableTransitionOptions.withCrossFade())
-//                .centerCrop()
-//                .into(imageViewMain)
         }
     }
 
-
-    fun convertLongToTime(time: Int): String {
+    private fun convertLongToTime(time: Int): String {
         val date = Date(time.toLong())
         val format = SimpleDateFormat("yyyy.MM.dd HH:mm")
         return format.format(date)
-    }
-}
-
-class DiffUtilCallback : DiffUtil.ItemCallback<CommentDto>() {
-
-    override fun areItemsTheSame(oldItem: CommentDto, newItem: CommentDto): Boolean {
-        return oldItem.data?.id == oldItem.data?.id
-    }
-
-    override fun areContentsTheSame(
-        oldItem: CommentDto,
-        newItem: CommentDto
-    ): Boolean {
-        return oldItem.data?.numComments == newItem.data?.numComments
     }
 }

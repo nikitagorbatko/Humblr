@@ -19,14 +19,15 @@ class SinglePostViewModel(
     private val _state = MutableStateFlow(State.LOADING)
     val state = _state.asStateFlow()
 
-    private val _comments = MutableStateFlow<List<CommentDto>?>(null)
+    private val _comments = MutableStateFlow<List<CommentUi>?>(null)
     val comments = _comments.asStateFlow()
 
     suspend fun getComments(id: String) {
         try {
             _state.emit(State.LOADING)
             val comments = repository.getComments(id)
-            _comments.emit(comments?.get(1)?.dataDto?.children)
+            val commentsUi = CommentDtoToUiMapper.convert(comments?.get(1)?.dataDto?.children)
+            _comments.emit(commentsUi)
             _state.emit(State.PRESENT)
         } catch (_: Exception) {
             _state.emit(State.ERROR)

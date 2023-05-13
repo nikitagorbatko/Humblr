@@ -43,7 +43,7 @@ android {
 dependencies {
 
     //tree view
-//    implementation 'vn.gapowork.android:tree-view:1.0.0-alpha01'
+    implementation 'vn.gapowork.android:tree-view:1.0.0-alpha01'
 
     //for tree view
 //    implementation "com.github.lisawray.groupie:groupie-viewbinding:1.0.0"
