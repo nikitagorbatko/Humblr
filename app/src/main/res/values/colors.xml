@@ -18,9 +18,14 @@
     <color name="text_background">#FFDCD3F6</color>
     <color name="text_background_subscribed">#FFF6DAD9</color>
 
+    <color name="text_background_night">#FF30284E</color>
+    <color name="text_background_subscribed_night">#FF4E3436</color>
+
     <color name="error_text_color">#EF5350</color>
 
     <color name="gray_text_color">#808080</color>
+
+    <color name="background_color_dark">#30284E</color>
 
 
 </resources>

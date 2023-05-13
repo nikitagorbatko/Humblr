@@ -2,6 +2,7 @@ package com.nikitagorbatko.humblr.api
 
 
 import com.nikitagorbatko.humblr.api.services.*
+import com.squareup.moshi.Moshi
 import retrofit2.converter.moshi.MoshiConverterFactory
 
 private const val BASE_URL = "https://oauth.reddit.com/"
@@ -11,14 +12,14 @@ class RetrofitReddit {
 //        .withSubtype(SetCommentDataDto::class.java, CommentType.SET_REPLIES.name)
 //        .withSubtype(EmptyCommentDataDto::class.java, CommentType.EMPTY_REPLIES.name)
 
-//    private val moshi = Moshi.Builder()
-//        //.add()
-//        .add(SkipEmptyRepliesAdapter())
-//        .build()
+    private val moshi = Moshi.Builder()
+        //.add()
+        .add(SkipEmptyRepliesAdapter())
+        .build()
 
     private val retrofit = retrofit2.Retrofit.Builder()
         .baseUrl(BASE_URL)
-        .addConverterFactory(MoshiConverterFactory.create())//.asLenient())
+        .addConverterFactory(MoshiConverterFactory.create(moshi).asLenient())//.asLenient())
         .build()
 
     fun addFriendService(): FriendUnfriendService = retrofit.create(FriendUnfriendService::class.java)

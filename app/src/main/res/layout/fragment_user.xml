@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background_color"
     tools:context=".ui.user.UserFragment">
 
     <androidx.appcompat.widget.Toolbar
@@ -50,7 +49,6 @@
                 android:paddingStart="8dp"
                 android:paddingEnd="8dp"
                 android:text="\@vanothebad"
-                android:textColor="@color/black"
                 android:textSize="18sp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -86,7 +84,6 @@
                 android:ellipsize="end"
                 android:maxLines="2"
                 android:paddingStart="8dp"
-                android:textColor="@color/black"
                 android:textSize="24sp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"

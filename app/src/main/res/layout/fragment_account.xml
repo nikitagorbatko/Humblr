@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background_color"
     tools:context=".ui.account.AccountFragment">
 
     <Button
@@ -79,7 +78,6 @@
                 android:paddingStart="8dp"
                 android:paddingEnd="8dp"
                 android:text="\@androidman"
-                android:textColor="@color/black"
                 android:textSize="18sp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -98,7 +96,6 @@
                 android:maxLines="2"
                 android:paddingStart="8dp"
                 android:paddingEnd="8dp"
-                android:textColor="@color/black"
                 android:textSize="24sp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -129,7 +126,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:text="Комментарии:"
-                android:textColor="@color/black"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/text_user_name" />
@@ -141,7 +137,6 @@
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="16dp"
                 android:text="Сабреддиты:"
-                android:textColor="@color/black"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -153,7 +148,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:text="140"
-                android:textColor="@color/black"
                 app:layout_constraintBottom_toBottomOf="@+id/text_user_comments"
                 app:layout_constraintStart_toEndOf="@+id/text_user_comments"
                 app:layout_constraintTop_toTopOf="@+id/text_user_comments" />
@@ -164,7 +158,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:text="0"
-                android:textColor="@color/black"
                 app:layout_constraintBottom_toBottomOf="@+id/text_subs"
                 app:layout_constraintStart_toEndOf="@+id/text_subs"
                 app:layout_constraintTop_toTopOf="@+id/text_subs" />

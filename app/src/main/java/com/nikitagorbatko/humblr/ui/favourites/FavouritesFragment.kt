@@ -86,7 +86,7 @@ class FavouritesFragment : Fragment() {
                 viewModel.voteDown(it)
             },
             onVoteUp = {
-                    viewModel.voteUp(it)
+                viewModel.voteUp(it)
             },
             saveComment = {
                 viewModel.saveComment(it)

@@ -1,6 +1,9 @@
 package com.nikitagorbatko.humblr.ui.friends
 
 import android.annotation.SuppressLint
+import android.content.Context
+import android.content.res.Configuration
+import android.graphics.drawable.Drawable
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.lifecycle.LifecycleCoroutineScope
@@ -9,6 +12,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.model.GlideUrl
 import com.bumptech.glide.load.model.LazyHeaders
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
+import com.nikitagorbatko.humblr.R
 import com.nikitagorbatko.humblr.api.pojos.FriendDto
 import com.nikitagorbatko.humblr.data.friends_photos.FriendsPhotosRepository
 import com.nikitagorbatko.humblr.databinding.FriendItemBinding
@@ -17,6 +21,7 @@ import org.koin.java.KoinJavaComponent
 
 
 class FriendsAdapter(
+    context: Context,
     private val scope: LifecycleCoroutineScope,
     val onItemClick: (name: String) -> Unit
 ) :
@@ -25,6 +30,22 @@ class FriendsAdapter(
     private val repository: FriendsPhotosRepository by KoinJavaComponent.inject(
         FriendsPhotosRepository::class.java
     )
+
+    private var unsubscribedBackground: Drawable
+
+    private val nightModeFlags =
+        context.resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
+
+    init {
+        unsubscribedBackground = when (nightModeFlags) {
+            Configuration.UI_MODE_NIGHT_YES -> {
+                context.resources.getDrawable(R.drawable.text_background_night)
+            }
+            else -> {
+                context.resources.getDrawable(R.drawable.text_background)
+            }
+        }
+    }
 
     private val token: String by KoinJavaComponent.inject(String::class.java)
 
@@ -49,6 +70,7 @@ class FriendsAdapter(
 
         with(holder.binding) {
             textPersonName.text = friend.name
+            textPersonName.background = unsubscribedBackground
             root.setOnClickListener {
                 onItemClick(friend.name)
             }

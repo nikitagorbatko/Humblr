@@ -1,6 +1,9 @@
 package com.nikitagorbatko.humblr.ui.subreddits
 
 import android.content.Context
+import android.content.res.Configuration
+import android.content.res.Resources
+import android.graphics.drawable.Drawable
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
@@ -12,16 +15,34 @@ import com.nikitagorbatko.humblr.api.pojos.SubredditDto
 import com.nikitagorbatko.humblr.databinding.SubredditItemBinding
 
 class SubredditsAdapter(
-    private val context: Context,
+    context: Context,
     private val onItemClick: (subreddit: SubredditDto) -> Unit,
     private val onAddClick: (subscribed: Boolean, name: String) -> Unit
 ) :
     PagingDataAdapter<ChildSubredditDto, SubredditsAdapter.ViewHolder>(DiffUtilCallback()) {
     private val subscribedImage = context.resources.getDrawable(R.drawable.ic_added_person)
     private val addPersonImage = context.resources.getDrawable(R.drawable.ic_add_person)
-    private val subscribedBackground =
-        context.resources.getDrawable(R.drawable.text_background_subscribed)
-    private val unsubscribedBackground = context.resources.getDrawable(R.drawable.text_background)
+    private var subscribedBackground: Drawable
+    private var unsubscribedBackground: Drawable
+
+    private val nightModeFlags =
+        context.resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
+
+    init {
+        when (nightModeFlags) {
+            Configuration.UI_MODE_NIGHT_YES -> {
+                subscribedBackground =
+                    context.resources.getDrawable(R.drawable.text_background_subscribed_night)
+                unsubscribedBackground =
+                    context.resources.getDrawable(R.drawable.text_background_night)
+            }
+            else -> {
+                subscribedBackground =
+                    context.resources.getDrawable(R.drawable.text_background_subscribed)
+                unsubscribedBackground = context.resources.getDrawable(R.drawable.text_background)
+            }
+        }
+    }
 
 
     inner class ViewHolder(val binding: SubredditItemBinding) :

@@ -47,7 +47,7 @@ data class CommentDataDto(
     @Json(name = "created_utc") var createdUtc: Int?,
     @Json(name = "created") var created: Int?,
     @Json(name = "num_comments") var numComments: Int?,
-    //@Json(name = "replies") var replies: RepliesDto?,
+    @Json(name = "replies") var replies: RepliesDto?,
     @Json(name = "url") var url: String?,
     @Json(name = "is_video") var isVideo: Boolean?
 )

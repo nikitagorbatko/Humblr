@@ -39,7 +39,7 @@ class FriendsFragment : Fragment() {
 
     private fun bind() {
         val navController = findNavController()
-        adapter = FriendsAdapter(viewLifecycleOwner.lifecycleScope) {
+        adapter = FriendsAdapter(requireContext(), viewLifecycleOwner.lifecycleScope) {
             val action = FriendsFragmentDirections.actionFriendsFragmentToUserFragment(it)
             navController.navigate(action)
         }
