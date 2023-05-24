@@ -11,11 +11,10 @@ import com.nikitagorbatko.humblr.api.pojos.ChildSubredditDto
 import com.nikitagorbatko.humblr.databinding.SubredditItemBinding
 
 class SubredditsAdapter(
-    private val context: Context,
+    context: Context,
     private val onItemClick: (displayName: String) -> Unit,
     private val onAddClick: (subscribed: Boolean, name: String) -> Unit
-) :
-    PagingDataAdapter<ChildSubredditDto, SubredditsAdapter.ViewHolder>(DiffUtilCallback()) {
+) : PagingDataAdapter<ChildSubredditDto, SubredditsAdapter.ViewHolder>(DiffUtilCallback()) {
     private val subscribedImage = context.resources.getDrawable(R.drawable.ic_added_person)
     private val addPersonImage = context.resources.getDrawable(R.drawable.ic_add_person)
     private val subscribedBackground =
@@ -58,11 +57,6 @@ class SubredditsAdapter(
                 notifyItemChanged(position)
                 onAddClick(subscribed, subreddit?.data?.name ?: "")
             }
-//            Glide.with(root)
-//                .load(subreddit?.data?.url)
-//                .transition(DrawableTransitionOptions.withCrossFade())
-//                .centerCrop()
-//                .into(imageViewMain)
         }
     }
 }

@@ -55,7 +55,9 @@ class SubredditsFragment : Fragment() {
             context = requireContext(),
             onItemClick = {
                 val action =
-                    SubredditsFragmentDirections.actionNavigationSubredditsToSubredditPostsFragment(it)
+                    SubredditsFragmentDirections.actionNavigationSubredditsToSubredditPostsFragment(
+                        it
+                    )
                 findNavController().navigate(action)
             },
             onAddClick = { subscribed, name ->
@@ -80,23 +82,25 @@ class SubredditsFragment : Fragment() {
         viewLifecycleOwner.lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 adapter.loadStateFlow.collect {
-                    if (it.source.refresh is LoadState.Loading) {
-                        binding.progressSubreddits.visibility = View.VISIBLE
-                        binding.searchInputLayout.visibility = View.GONE
-                        binding.tabLayout.visibility = View.GONE
-                    } else {
-                        binding.progressSubreddits.visibility = View.GONE
-                        binding.searchInputLayout.visibility = View.VISIBLE
-                        binding.tabLayout.visibility = View.VISIBLE
-                    }
-                    if (it.source.refresh is LoadState.Error) {
-                        binding.textSubredditsError.visibility = View.VISIBLE
-                        binding.searchInputLayout.visibility = View.GONE
-                        binding.tabLayout.visibility = View.GONE
-                    } else {
-                        binding.textSubredditsError.visibility = View.GONE
-                        binding.searchInputLayout.visibility = View.VISIBLE
-                        binding.tabLayout.visibility = View.VISIBLE
+                    when(it.source.refresh) {
+                        LoadState.Loading -> {
+                            binding.progressSubreddits.visibility = View.VISIBLE
+                            binding.searchInputLayout.visibility = View.VISIBLE
+                            binding.textSubredditsError.visibility = View.GONE
+                            binding.tabLayout.visibility = View.VISIBLE
+                        }
+                        is LoadState.Error -> {
+                            binding.progressSubreddits.visibility = View.GONE
+                            binding.textSubredditsError.visibility = View.VISIBLE
+                            binding.searchInputLayout.visibility = View.GONE
+                            binding.tabLayout.visibility = View.GONE
+                        }
+                        is LoadState.NotLoading -> {
+                            binding.progressSubreddits.visibility = View.GONE
+                            binding.searchInputLayout.visibility = View.VISIBLE
+                            binding.textSubredditsError.visibility = View.GONE
+                            binding.tabLayout.visibility = View.VISIBLE
+                        }
                     }
                 }
             }

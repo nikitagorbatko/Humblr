@@ -1,8 +1,6 @@
 package com.nikitagorbatko.humblr.data.name
 
-import com.nikitagorbatko.humblr.App
 import com.nikitagorbatko.humblr.api.services.MeService
-import org.koin.mp.KoinPlatform
 
 class NameRepositoryImpl(
     private val token: String,

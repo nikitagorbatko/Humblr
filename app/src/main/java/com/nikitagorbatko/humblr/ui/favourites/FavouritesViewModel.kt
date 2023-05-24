@@ -28,12 +28,12 @@ class FavouritesViewModel(
 
     fun getSavedComments() = savedCommentsRepository.getComments()
 
-    suspend fun subscribeToSub(subname: String) {
-        subscribeUseCase.execute(subname)
+    suspend fun subscribeToSub(subName: String) {
+        subscribeUseCase.execute(subName)
     }
 
-    suspend fun unsubscribeFromSub(subname: String) {
-        unsubscribeUseCase.execute(subname)
+    suspend fun unsubscribeFromSub(subName: String) {
+        unsubscribeUseCase.execute(subName)
     }
 
     //does not check the response

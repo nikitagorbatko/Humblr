@@ -15,7 +15,6 @@ class AccountViewModel(
     private val getAccountUseCase: GetAccountUseCase,
     private val sharedPreferencesRepository: SharedPreferencesRepository,
     private val getUserCommentsAmountUseCase: GetUserCommentsAmountUseCase
-
 ) : ViewModel() {
     private val _account = MutableStateFlow<UserDto?>(null)
     val account = _account.asStateFlow()
